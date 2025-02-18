@@ -14,6 +14,7 @@ function NavBar() {
         <nav className="w-full h-auto mx-5 sm:w-4/5 sm:h-auto md:w-3/4 lg:w-3/5 xl:w-1/2 2xl:w-1/3">
           <div className="flex">
             <Button
+              type="button"
               className="w-full"
               variant={pathname === "/login" ? "default" : "ghost"}
               asChild
@@ -22,6 +23,7 @@ function NavBar() {
             </Button>
 
             <Button
+              type="button"
               className="w-full"
               variant={pathname === "/register" ? "default" : "ghost"}
               asChild
