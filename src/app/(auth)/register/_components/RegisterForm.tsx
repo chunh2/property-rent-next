@@ -13,11 +13,11 @@ const RegisterFormSchema = z
     name: z
       .string()
       .min(1, "Name is required")
-      .max(255, "Name cannot exceed 255 characters"),
+      .max(30, "Name cannot exceed 30 characters"),
     email: z
       .string()
       .min(1, "Email is required")
-      .max(255, "Email cannot exceed 255 characters")
+      .max(100, "Email cannot exceed 100 characters")
       .email("Invalid email format"),
     password: z
       .string()
