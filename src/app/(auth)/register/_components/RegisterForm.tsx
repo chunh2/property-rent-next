@@ -8,6 +8,9 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const RegisterFormSchema = z
   .object({
@@ -48,8 +51,44 @@ function RegisterForm() {
     resolver: zodResolver(RegisterFormSchema),
   });
 
+  const router = useRouter();
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const mutation = useMutation({
+    mutationFn: async (data: RegisterFormType) => {
+      const res = await fetch(`${API_URL}/api/register`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error);
+      }
+
+      return res.json();
+    },
+    onSuccess: (data) => {
+      toast("Registration Successful", {
+        description: "Your account has been created successfully",
+      });
+      router.replace("/login");
+    },
+    onError: (error) => {
+      toast("Error", {
+        description: error.message,
+      });
+    },
+  });
+
   const handleRegister = (data: RegisterFormType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   const roleOptions: { id: "1" | "2"; name: string }[] = [
