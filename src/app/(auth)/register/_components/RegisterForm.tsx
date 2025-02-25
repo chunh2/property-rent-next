@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const RegisterFormSchema = z
   .object({
@@ -27,6 +28,9 @@ const RegisterFormSchema = z
     confirmation_password: z
       .string()
       .min(1, "Password confirmation is required"),
+    role_ids: z
+      .array(z.enum(["1", "2"]))
+      .min(1, "At least one role is required"),
   })
   .refine((data) => data.password === data.confirmation_password, {
     message: "Passwords do not match",
@@ -47,6 +51,17 @@ function RegisterForm() {
   const handleRegister = (data: RegisterFormType) => {
     console.log(data);
   };
+
+  const roleOptions: { id: "1" | "2"; name: string }[] = [
+    {
+      id: "1",
+      name: "Tenant",
+    },
+    {
+      id: "2",
+      name: "Owner",
+    },
+  ];
 
   return (
     <>
@@ -137,6 +152,45 @@ function RegisterForm() {
               <p className="text-red-500">
                 {errors.confirmation_password?.message || null}
               </p>
+            </div>
+          </div>
+
+          <div className="my-5">
+            {/* Role_ids */}
+            <Label>Register as</Label>
+
+            <Controller
+              name="role_ids"
+              control={control}
+              defaultValue={[]}
+              render={({ field: { value, onChange } }) => (
+                <>
+                  {roleOptions.map((role) => (
+                    <div key={role.id} className="flex items-center my-1">
+                      <Checkbox
+                        id={role.id}
+                        value={role.id}
+                        checked={value.includes(role.id)}
+                        onCheckedChange={(checked) =>
+                          onChange(
+                            checked
+                              ? [...value, role.id]
+                              : value.filter((v) => v !== role.id)
+                          )
+                        }
+                      />
+                      <Label htmlFor={role.id} className="mx-1">
+                        {role.name}
+                      </Label>
+                    </div>
+                  ))}
+                </>
+              )}
+            />
+
+            {/* Role_ids error message */}
+            <div className="mt-2 ml-2 h-3">
+              <p className="text-red-500">{errors.role_ids?.message || null}</p>
             </div>
           </div>
         </CardContent>
