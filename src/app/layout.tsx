@@ -1,4 +1,6 @@
+import TanstackProvider from "@/utils/Provider/TanstackProvider";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 export const metadata = {
   title: "Next.js",
@@ -12,7 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <TanstackProvider>
+          <>{children}</>
+        </TanstackProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }
