@@ -8,6 +8,9 @@ import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LoginFormSchema = z.object({
   email: z
@@ -32,8 +35,48 @@ function LoginForm() {
     resolver: zodResolver(LoginFormSchema),
   });
 
+  const router = useRouter();
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const mutation = useMutation({
+    mutationFn: async (data: LoginFormType) => {
+      const res = await fetch(`${API_URL}/api/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error);
+      }
+
+      return res.json();
+    },
+    onSuccess: (data) => {
+      const { roleId } = data;
+
+      if (roleId === "1") {
+        // router.replace("");
+      } else if (roleId === "2") {
+        // router.replace("");
+      }
+    },
+    onError: (error) => {
+      console.log("Error");
+      toast("Error", {
+        description: error.message,
+      });
+    },
+  });
+
   const handleLogin = (data: LoginFormType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (
