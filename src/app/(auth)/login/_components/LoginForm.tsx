@@ -62,9 +62,9 @@ function LoginForm() {
       const { roleId } = data;
 
       if (roleId === "1") {
-        // router.replace("");
+        router.replace("/tenant-properties");
       } else if (roleId === "2") {
-        // router.replace("");
+        router.replace("/owner-properties");
       }
     },
     onError: (error) => {
