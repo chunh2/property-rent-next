@@ -1,19 +1,42 @@
 import getToken from "@/utils/getToken";
 import PropertyCard from "./_component/PropertyCard";
 import Property from "./utils/PropertyType";
+import Pagination from "./_component/Pagination";
+import SearchParamsType from "./utils/SearchParamsType";
+import { redirect } from "next/navigation";
 
 type PropertiesResponse = {
   message?: string;
   data?: Property[];
   error?: string;
+  count: number;
 };
 
-async function OwnerProperties() {
-  const { message, data: properties, error } = await getProperties();
+async function OwnerProperties({
+  searchParams,
+}: {
+  searchParams: SearchParamsType;
+}) {
+  // query parameter
+  const page = Number(searchParams.page) || 1;
+  const limit = 20;
+
+  if (!searchParams.page) {
+    redirect(`/owner-properties?page=${page}&limit=${limit}`);
+  }
+
+  const {
+    message,
+    data: properties,
+    error,
+    count,
+  } = await getProperties(page, limit);
 
   return (
     <div className="mx-5 my-3 sm:mx-8 sm:my-4 md:mx-10 md:my-6 lg:mx-12 lg:my-8 xl:mx-14 xl:my-10 2xl:mx-16 2xl:my-12">
       <h1 className="text-center font-bold text-4xl">Properties</h1>
+
+      <Pagination count={count} />
 
       <div className="my-5">
         {error ? (
@@ -28,6 +51,8 @@ async function OwnerProperties() {
           </div>
         )}
       </div>
+
+      <Pagination count={count} />
     </div>
   );
 }
@@ -38,12 +63,17 @@ export const metadata = {
   title: "Your Properties",
 };
 
-const getProperties = async (): Promise<PropertiesResponse> => {
+const getProperties = async (
+  page: number,
+  limit: number
+): Promise<PropertiesResponse> => {
   const token = getToken();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const res = await fetch(`${API_URL}/api/owner/properties`, {
+  const url = `${API_URL}/api/owner/properties?page=${page}&limit=${limit}`;
+
+  const res = await fetch(url, {
     next: {
       revalidate: 60,
     },
