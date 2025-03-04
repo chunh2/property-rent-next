@@ -54,6 +54,8 @@ function CreateProperty({
     formState: { errors },
     reset,
     watch,
+    getValues,
+    setValue,
   } = useForm<CreatePropertyType>({
     resolver: zodResolver(CreatePropertySchema),
   });
@@ -168,6 +170,22 @@ function CreateProperty({
   const propertyImages = watch("property_images");
 
   const [images, setImages] = useState<PropertyImageType[]>([]);
+
+  const removePropertyImage = (id: string) => {
+    const index = images.findIndex(
+      (propertyImage: PropertyImageType) => propertyImage.id === id
+    );
+
+    setImages((prev) =>
+      prev.filter((propertyImage: PropertyImageType) => propertyImage.id !== id)
+    );
+
+    const property_images = getValues("property_images");
+
+    property_images.splice(index, 1);
+
+    setValue("property_images", property_images);
+  };
 
   return (
     <>
@@ -464,7 +482,10 @@ function CreateProperty({
                 errorMessage={errors.property_images?.message}
               />
 
-              <PropertyImagesPreview propertyImages={images} />
+              <PropertyImagesPreview
+                propertyImages={images}
+                removePropertyImage={removePropertyImage}
+              />
             </div>
 
             <div className="flex justify-end mt-3">

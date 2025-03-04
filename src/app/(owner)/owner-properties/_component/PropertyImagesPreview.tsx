@@ -5,9 +5,13 @@ import PropertyImageType from "../utils/PropertyImageType";
 
 type PropsType = {
   propertyImages: PropertyImageType[];
+  removePropertyImage: (id: string) => void;
 };
 
-function PropertyImagesPreview({ propertyImages }: PropsType) {
+function PropertyImagesPreview({
+  propertyImages,
+  removePropertyImage,
+}: PropsType) {
   return (
     <>
       <div className="grid grid-cols-5 gap-1">
@@ -26,7 +30,7 @@ function PropertyImagesPreview({ propertyImages }: PropsType) {
               size="icon"
               variant="destructive"
               type="button"
-              onClick={() => console.log(propertyImage)}
+              onClick={() => removePropertyImage(propertyImage.id)}
             >
               <Minus />
             </Button>
