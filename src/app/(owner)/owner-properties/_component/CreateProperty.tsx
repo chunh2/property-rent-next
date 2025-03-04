@@ -35,6 +35,9 @@ import { v4 as uuidv4 } from "uuid";
 import PropertyImageType, {
   PropertyImageFileType,
 } from "../utils/PropertyImageType";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import revalidateRoute from "@/app/_utils/revalidateRoute";
 
 function CreateProperty({
   states,
@@ -65,6 +68,13 @@ function CreateProperty({
     }
   };
 
+  const closeForm = () => {
+    setOpen(false);
+
+    reset();
+    setImages([]);
+  };
+
   const [statesFetched, setStatesFetched] = useState<StateType[] | undefined>(
     undefined
   );
@@ -91,7 +101,72 @@ function CreateProperty({
 
   const submitForm = (data: CreatePropertyType) => {
     console.log(data);
+
+    mutation.mutate(data);
   };
+
+  const mutation = useMutation({
+    mutationFn: async (data: CreatePropertyType) => {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (
+          Array.isArray(value) &&
+          value?.length > 0 &&
+          value[0] instanceof File
+        ) {
+          value.forEach((property_image) => {
+            formData.append("property_images", property_image);
+          });
+        } else if (
+          typeof value === "string" ||
+          typeof value === "number" ||
+          value
+        ) {
+          formData.append(key, String(value));
+        }
+      });
+
+      const res = await fetch(`${API_URL}/api/owner/properties`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      console.log(data);
+
+      console.log(formData);
+
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.error);
+      }
+
+      return response;
+    },
+    onSuccess: (data) => {
+      const { message } = data;
+      toast("Success", {
+        description: message || "Property added",
+      });
+
+      closeForm();
+
+      revalidateRoute("/owner-properties");
+    },
+    onError: (error) => {
+      toast("Error", {
+        description: error.message || "Error",
+      });
+
+      console.log(error);
+    },
+  });
 
   const propertyImages = watch("property_images");
 
