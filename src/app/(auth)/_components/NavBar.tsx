@@ -15,7 +15,7 @@ function NavBar() {
           <div className="flex">
             <Button
               type="button"
-              className="w-full"
+              className="w-full rounded-b-none rounded-tr-none border border-r-0 border-b-0 border-neutral-200"
               variant={pathname === "/login" ? "default" : "ghost"}
               asChild
             >
@@ -24,7 +24,7 @@ function NavBar() {
 
             <Button
               type="button"
-              className="w-full"
+              className="w-full rounded-b-none rounded-tl-none border border-l-0 border-b-0 border-neutral-200"
               variant={pathname === "/register" ? "default" : "ghost"}
               asChild
             >
