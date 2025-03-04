@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Property from "../utils/PropertyType";
+import Image from "next/image";
 
 function PropertyCard({ property }: { property: Property }) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -9,9 +10,11 @@ function PropertyCard({ property }: { property: Property }) {
       <Card>
         <CardHeader className="w-full p-0">
           <div className="text-center">
-            <img
+            <Image
               src={`${API_URL}/${property.property_images[0]?.image_path}`}
               alt={`${property.property_type.name} - ${property.title}`}
+              width={800}
+              height={600}
               className="w-full h-full object-cover rounded-t-lg"
             />
           </div>
