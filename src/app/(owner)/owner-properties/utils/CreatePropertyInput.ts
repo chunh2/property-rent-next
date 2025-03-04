@@ -49,6 +49,19 @@ export const CreatePropertySchema = z.object({
   state_id: z
     .number({ required_error: "State is required" })
     .min(1, "Invalid state"),
+
+  property_images: z
+    .custom<File[]>((val) => Array.isArray(val), "Invalid file input")
+    .refine((files) => files?.length > 0, "At least 1 image is required")
+    .refine((files) => files?.length <= 10, "Up to 10 images only")
+    .refine(
+      (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+      "Each file must be less than 2MB"
+    )
+    .refine(
+      (files) => files.every((file) => file.type.startsWith("image/")),
+      "Only image files are allowed"
+    ),
 });
 
 export type CreatePropertyType = z.infer<typeof CreatePropertySchema>;

@@ -30,6 +30,11 @@ import {
 import { StateType } from "@/app/_utils/getStates";
 import { PropertyTypesType } from "@/app/_utils/getPropertyTypes";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
+import PropertyImagesPreview from "./PropertyImagesPreview";
+import { v4 as uuidv4 } from "uuid";
+import PropertyImageType, {
+  PropertyImageFileType,
+} from "../utils/PropertyImageType";
 
 function CreateProperty({
   states,
@@ -45,6 +50,7 @@ function CreateProperty({
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<CreatePropertyType>({
     resolver: zodResolver(CreatePropertySchema),
   });
@@ -55,6 +61,7 @@ function CreateProperty({
     // reset form on close
     if (!open) {
       reset();
+      setImages([]);
     }
   };
 
@@ -85,6 +92,10 @@ function CreateProperty({
   const submitForm = (data: CreatePropertyType) => {
     console.log(data);
   };
+
+  const propertyImages = watch("property_images");
+
+  const [images, setImages] = useState<PropertyImageType[]>([]);
 
   return (
     <>
@@ -341,6 +352,47 @@ function CreateProperty({
               <FormErrorMessage
                 errorMessage={errors?.property_type_id?.message}
               />
+            </div>
+
+            <div className="mt-3">
+              <Label htmlFor="property_images">Images</Label>
+
+              <Controller
+                name="property_images"
+                control={control}
+                defaultValue={[]}
+                render={({ field: { value, onChange } }) => (
+                  <Input
+                    className="hidden"
+                    onChange={(e) => {
+                      const newImages: File[] = Array.from(
+                        e.target.files || []
+                      );
+                      const existingImages = value || [];
+                      onChange([...existingImages, ...newImages]);
+
+                      const images = newImages.map((image) => ({
+                        id: uuidv4(),
+                        property_image: image,
+                      }));
+
+                      setImages((prev: PropertyImageType[]) => [
+                        ...prev,
+                        ...images,
+                      ]);
+                    }}
+                    id="property_images"
+                    type="file"
+                    multiple
+                  />
+                )}
+              />
+
+              <FormErrorMessage
+                errorMessage={errors.property_images?.message}
+              />
+
+              <PropertyImagesPreview propertyImages={images} />
             </div>
 
             <div className="flex justify-end mt-3">
