@@ -59,13 +59,10 @@ function CreateProperty({
   });
 
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen(true);
 
-    // reset form on close
-    if (!open) {
-      reset();
-      setImages([]);
-    }
+    reset();
+    setImages([]);
   };
 
   const closeForm = () => {
