@@ -1,5 +1,12 @@
 import NavigateBack from "@/app/_utilsComponents/NavigateBack";
 import getPropertyById from "./_utils/getPropertyById";
+import EditForm from "./_component/EditForm";
+import Property from "../utils/PropertyType";
+import CreatedDateTimeTooltip from "./_component/CreatedDateTimeTooltip";
+import getStates, { StateType } from "@/app/_utils/getStates";
+import getPropertyTypes, {
+  PropertyTypesType,
+} from "@/app/_utils/getPropertyTypes";
 
 type PropsType = {
   params: {
@@ -7,18 +14,47 @@ type PropsType = {
   };
 };
 
+type Response = {
+  data: Property;
+  message: string | undefined;
+  error: string | undefined;
+};
+
 async function PropertyDetails({ params }: PropsType) {
   const { id } = params;
 
-  const { data: property, message, error } = await getPropertyById(id);
+  const {
+    data: property,
+    message,
+    error,
+  }: Response = await getPropertyById(id);
+
+  const states: StateType[] = (await getStates()) || [];
+
+  const propertyTypes: PropertyTypesType[] = (await getPropertyTypes()) || [];
 
   console.log(property);
 
   return (
-    <>
-      <NavigateBack />
-      <div>PropertyDetails {id}</div>
-    </>
+    <div className="m-20">
+      <div className="flex justify-start">
+        <NavigateBack />
+      </div>
+
+      {/* created date time */}
+      <div className="flex justify-end">
+        <CreatedDateTimeTooltip createdAt={property.createdAt} />
+      </div>
+
+      <h1 className="text-center font-bold text-3xl">{property.title}</h1>
+
+      {/* Form for editing */}
+      <EditForm
+        property={property}
+        states={states}
+        propertyTypes={propertyTypes}
+      />
+    </div>
   );
 }
 
