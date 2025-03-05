@@ -3,9 +3,16 @@ type Property = {
   title: string;
   description: string;
   price: number;
+  address: string;
   city: string;
   bedroom: number;
   bathroom: number;
+  property_type_id: number;
+  state_id: number;
+  property_status_id: number;
+  createdAt: string;
+  updatedAt: string;
+
   property_type: {
     name: string;
   };
