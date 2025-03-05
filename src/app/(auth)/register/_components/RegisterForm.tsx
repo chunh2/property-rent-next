@@ -232,7 +232,9 @@ function RegisterForm({ roles }: PropsType) {
         </CardContent>
 
         <CardFooter className="flex justify-end">
-          <Button type="submit">Register</Button>
+          <Button type="submit" disabled={mutation.isPending}>
+            {mutation.isPending ? "Registering..." : "Register"}
+          </Button>
         </CardFooter>
       </form>
     </>

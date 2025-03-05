@@ -170,7 +170,9 @@ function LoginForm({ roles }: PropsType) {
         </CardContent>
 
         <CardFooter className="flex justify-end">
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={mutation.isPending}>
+            {mutation.isPending ? "Logging in..." : "Login"}
+          </Button>
         </CardFooter>
       </form>
     </>
