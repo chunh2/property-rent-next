@@ -11,6 +11,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { RoleType } from "@/app/_utils/getRoles";
+import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 
 const RegisterFormSchema = z
   .object({
@@ -42,7 +44,11 @@ const RegisterFormSchema = z
 
 type RegisterFormType = z.infer<typeof RegisterFormSchema>;
 
-function RegisterForm() {
+type PropsType = {
+  roles: RoleType[];
+};
+
+function RegisterForm({ roles }: PropsType) {
   const {
     control,
     handleSubmit,
@@ -90,17 +96,6 @@ function RegisterForm() {
   const handleRegister = (data: RegisterFormType) => {
     mutation.mutate(data);
   };
-
-  const roleOptions: { id: "1" | "2"; name: string }[] = [
-    {
-      id: "1",
-      name: "Tenant",
-    },
-    {
-      id: "2",
-      name: "Owner",
-    },
-  ];
 
   return (
     <>
@@ -202,24 +197,26 @@ function RegisterForm() {
               name="role_ids"
               control={control}
               defaultValue={[]}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = [], onChange } }) => (
                 <>
-                  {roleOptions.map((role) => (
-                    <div key={role.id} className="flex items-center my-1">
+                  {roles.map((role) => (
+                    <div key={role.role_id} className="flex items-center my-1">
                       <Checkbox
-                        id={role.id}
-                        value={role.id}
-                        checked={value.includes(role.id)}
+                        id={role.role_id.toString()}
+                        value={role.role_id.toString()}
+                        checked={value.includes(role.role_id.toString())}
                         onCheckedChange={(checked) =>
                           onChange(
                             checked
-                              ? [...value, role.id]
-                              : value.filter((v) => v !== role.id)
+                              ? [...value, role.role_id.toString()]
+                              : value.filter(
+                                  (v) => v !== role.role_id.toString()
+                                )
                           )
                         }
                       />
-                      <Label htmlFor={role.id} className="mx-1">
-                        {role.name}
+                      <Label htmlFor={role.role_id.toString()} className="mx-1">
+                        {formatValueFromDb(role.role_name)}
                       </Label>
                     </div>
                   ))}

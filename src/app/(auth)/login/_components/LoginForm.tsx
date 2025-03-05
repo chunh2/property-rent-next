@@ -11,6 +11,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { RoleType } from "@/app/_utils/getRoles";
+import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 
 const LoginFormSchema = z.object({
   email: z
@@ -26,7 +28,11 @@ const LoginFormSchema = z.object({
 
 type LoginFormType = z.infer<typeof LoginFormSchema>;
 
-function LoginForm() {
+type PropsType = {
+  roles: RoleType[];
+};
+
+function LoginForm({ roles }: PropsType) {
   const {
     control,
     handleSubmit,
@@ -140,15 +146,18 @@ function LoginForm() {
                   onValueChange={onChange}
                   value={value}
                 >
-                  <div className="flex items-center mt-1">
-                    <RadioGroupItem value="1" id="1" className="mx-1" />
-                    <Label htmlFor="1">Tenant</Label>
-                  </div>
-
-                  <div className="flex items-center">
-                    <RadioGroupItem value="2" id="2" className="mx-1" />
-                    <Label htmlFor="2">Owner</Label>
-                  </div>
+                  {roles.map((role) => (
+                    <div className="flex items-center mt-1" key={role.role_id}>
+                      <RadioGroupItem
+                        value={role.role_id.toString()}
+                        id={role.role_id.toString()}
+                        className="mx-1"
+                      />
+                      <Label htmlFor={role.role_id.toString()}>
+                        {formatValueFromDb(role.role_name)}
+                      </Label>
+                    </div>
+                  ))}
                 </RadioGroup>
               )}
             />
