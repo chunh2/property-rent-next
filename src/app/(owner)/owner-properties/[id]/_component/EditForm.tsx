@@ -22,6 +22,10 @@ import {
 import { StateType } from "@/app/_utils/getStates";
 import { PropertyTypesType } from "@/app/_utils/getPropertyTypes";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import revalidateRoute from "@/app/_utils/revalidateRoute";
 
 type PropsType = {
   property: Property;
@@ -40,7 +44,85 @@ function EditForm({ property, states, propertyTypes }: PropsType) {
 
   const handleUpdate = (data: EditPropertyType) => {
     console.log(data);
+
+    const { id } = property;
+
+    mutation.mutate({ data, id });
   };
+
+  const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: async ({
+      data,
+      id,
+    }: {
+      data: EditPropertyType;
+      id: number;
+    }) => {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+      const url = `${API_URL}/api/owner/properties/${id}`;
+
+      const formData = new FormData();
+
+      Object.entries(data).forEach(([key, value]) => {
+        if (
+          Array.isArray(value) &&
+          value?.length > 0 &&
+          value[0] instanceof File
+        ) {
+          value.forEach((property_image) => {
+            formData.append("property_images", property_image);
+          });
+        } else if (
+          typeof value === "string" ||
+          typeof value === "number" ||
+          value
+        ) {
+          formData.append(key, String(value));
+        }
+      });
+
+      const res = await fetch(url, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.error || response.message);
+      }
+
+      return response;
+    },
+    onSuccess: (response) => {
+      const {
+        message,
+        data: { id },
+      } = response;
+
+      console.log(response);
+      toast("Success", {
+        description: message || "Operation performed successfully",
+      });
+
+      revalidateRoute("/owner-properties");
+
+      router.push("/owner-properties");
+    },
+    onError: (error) => {
+      console.error(error);
+      toast("Error", {
+        description: error.message || "Failed to perform the operation",
+      });
+    },
+  });
 
   return (
     <>
