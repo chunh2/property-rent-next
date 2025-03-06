@@ -37,6 +37,9 @@ function Filter({ propertyStatuses }: PropsType) {
       params.delete("property_status_id");
     }
 
+    // reset page to 1, each time set property_status_id
+    params.set("page", "1");
+
     router.push(`${pathname}?${params.toString()}`);
   };
 
