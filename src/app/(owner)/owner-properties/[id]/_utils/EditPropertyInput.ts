@@ -55,6 +55,21 @@ export const EditPropertySchema = z.object({
       required_error: "Property status is required",
     })
     .min(1, "Invalid status"),
+
+  property_images: z
+    .custom<File[]>((val) => Array.isArray(val), "Invalid file input")
+    .refine((files) => files?.length <= 10, "Up to 10 images only")
+    .refine(
+      (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+      "Each file must be less than 5MB"
+    )
+    .refine(
+      (files) => files.every((file) => file.type.startsWith("image/")),
+      "Only image files are allowed"
+    )
+    .optional(),
+
+  property_images_ids_DELETE: z.array(z.string()).optional(),
 });
 
 export type EditPropertyType = z.infer<typeof EditPropertySchema>;

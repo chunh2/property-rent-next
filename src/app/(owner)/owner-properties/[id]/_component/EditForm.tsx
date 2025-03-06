@@ -27,6 +27,11 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import revalidateRoute from "@/app/_utils/revalidateRoute";
 import { PropertyStatusType } from "@/app/_utils/getPropertyStatuses";
+import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
+import PropertyImageType from "../../utils/PropertyImageType";
+import PropertyImagesPreview from "../../_component/PropertyImagesPreview";
+import PropertyImagesPreviewFileFormat from "./PropertyImagesPreviewFileFormat";
 
 type PropsType = {
   property: Property;
@@ -45,8 +50,14 @@ function EditForm({
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
+    setValue,
+    watch,
   } = useForm<EditPropertyType>({
     resolver: zodResolver(EditPropertySchema),
+    defaultValues: {
+      property_images_ids_DELETE: [],
+    },
   });
 
   const handleUpdate = (data: EditPropertyType) => {
@@ -80,7 +91,16 @@ function EditForm({
           value[0] instanceof File
         ) {
           value.forEach((property_image) => {
-            formData.append("property_images", property_image);
+            if (property_image instanceof File) {
+              formData.append("property_images", property_image);
+            }
+          });
+        } else if (
+          key === "property_images_ids_DELETE" &&
+          Array.isArray(value)
+        ) {
+          value.forEach((id) => {
+            formData.append("property_images_ids_DELETE[]", String(id));
           });
         } else if (
           typeof value === "string" ||
@@ -130,6 +150,37 @@ function EditForm({
       });
     },
   });
+
+  // new images added (for rendering)
+  const [images, setImages] = useState<PropertyImageType[]>([]);
+
+  // remove new images added
+  const removePropertyImage = (id: string) => {
+    const index = images.findIndex(
+      (propertyImage: PropertyImageType) => propertyImage.id === id
+    );
+
+    setImages((prev) =>
+      prev.filter((propertyImage: PropertyImageType) => propertyImage.id !== id)
+    );
+
+    const property_images = getValues("property_images");
+
+    property_images?.splice(index, 1);
+
+    setValue("property_images", property_images);
+  };
+
+  const propertyImagesIdsDELETE = watch("property_images_ids_DELETE");
+
+  // add existing images to delete list
+  const deletePropertyImage = (id: number) => {
+    const property_images_ids_DELETE = getValues("property_images_ids_DELETE");
+    setValue("property_images_ids_DELETE", [
+      ...(property_images_ids_DELETE || []),
+      id.toString(),
+    ]);
+  };
 
   return (
     <>
@@ -370,6 +421,57 @@ function EditForm({
                 </SelectContent>
               </Select>
             )}
+          />
+        </div>
+
+        <div className="mt-3">
+          <Label>Existing Images</Label>
+
+          <PropertyImagesPreviewFileFormat
+            propertyImages={property.property_images}
+            deletePropertyImage={deletePropertyImage}
+            propertyImagesIdsDELETE={propertyImagesIdsDELETE || []}
+          />
+        </div>
+
+        <div className="mt-3">
+          {/* Input property_images */}
+          <Label htmlFor="property_images">New Images</Label>
+
+          <Controller
+            name="property_images"
+            control={control}
+            defaultValue={[]}
+            render={({ field: { value, onChange } }) => (
+              <Input
+                className="hidden"
+                onChange={(e) => {
+                  const newImages: File[] = Array.from(e.target.files || []);
+                  const existingImages = value || [];
+                  onChange([...existingImages, ...newImages]);
+
+                  const images = newImages.map((image) => ({
+                    id: uuidv4(),
+                    property_image: image,
+                  }));
+
+                  setImages((prev: PropertyImageType[]) => [
+                    ...prev,
+                    ...images,
+                  ]);
+                }}
+                id="property_images"
+                type="file"
+                multiple
+              />
+            )}
+          />
+
+          <FormErrorMessage errorMessage={errors.property_images?.message} />
+
+          <PropertyImagesPreview
+            propertyImages={images}
+            removePropertyImage={removePropertyImage}
           />
         </div>
 
