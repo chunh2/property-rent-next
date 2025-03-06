@@ -20,7 +20,11 @@ function Pagination({ count }: { count: number }) {
   const router = useRouter();
 
   const navigateToPage = (page: number) => {
-    router.push(`${route}?page=${page}&limit=${limit}`);
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set("page", page.toString());
+
+    router.push(`${route}?${params.toString()}`);
   };
 
   return (
