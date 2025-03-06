@@ -1,11 +1,17 @@
 "use client";
 
+import formatValueFromDb from "@/app/_utils/formatValueFromDb";
+import { PropertyStatusType } from "@/app/_utils/getPropertyStatuses";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { PropertyStatusType } from "../utils/PropertyStatusType";
+// import { PropertyStatusType } from "../utils/PropertyStatusType";
 
-function Filter() {
+type PropsType = {
+  propertyStatuses: PropertyStatusType[];
+};
+
+function Filter({ propertyStatuses }: PropsType) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -13,14 +19,7 @@ function Filter() {
   const page = searchParams.get("page") || "1";
   const limit = searchParams.get("limit") || "20";
 
-  //   check for invalid property_status_id
-  const validateStatuses = Object.values(PropertyStatusType);
-
-  const property_status_id = validateStatuses.includes(
-    searchParams.get("property_status_id") as PropertyStatusType
-  )
-    ? searchParams.get("property_status_id")
-    : "0";
+  const property_status_id = searchParams.get("property_status_id") || "0";
 
   const [selectedStatus, setSelectedStatus] = useState(property_status_id);
 
@@ -31,6 +30,7 @@ function Filter() {
   const navigateToStatus = (id: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
+    // set property_status_id
     if (Number(id) >= 1 && Number(id) <= 4) {
       params.set("property_status_id", id);
     } else {
@@ -39,29 +39,6 @@ function Filter() {
 
     router.push(`${pathname}?${params.toString()}`);
   };
-
-  const statuses = [
-    {
-      id: "0",
-      name: "All",
-    },
-    {
-      id: "1",
-      name: "Available",
-    },
-    {
-      id: "2",
-      name: "Pending",
-    },
-    {
-      id: "3",
-      name: "Rented",
-    },
-    {
-      id: "4",
-      name: "Unavailable",
-    },
-  ];
 
   const handleChangeStatus = (value: string) => {
     if (!value) return;
@@ -78,9 +55,10 @@ function Filter() {
         value={selectedStatus || ""}
         onValueChange={handleChangeStatus}
       >
-        {statuses.map((status) => (
-          <ToggleGroupItem key={status.id} value={status.id}>
-            {status.name}
+        <ToggleGroupItem value="0">All</ToggleGroupItem>
+        {propertyStatuses.map((status) => (
+          <ToggleGroupItem key={status.id} value={status.id.toString()}>
+            {formatValueFromDb(status.name)}
           </ToggleGroupItem>
         ))}
       </ToggleGroup>

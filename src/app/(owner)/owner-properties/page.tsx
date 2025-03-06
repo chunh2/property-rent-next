@@ -5,10 +5,12 @@ import Pagination from "./_component/Pagination";
 import SearchParamsType from "./utils/SearchParamsType";
 import { redirect } from "next/navigation";
 import Filter from "./_component/Filter";
-import { PropertyStatus, PropertyStatusType } from "./utils/PropertyStatusType";
 import CreateProperty from "./_component/CreateProperty";
 import getStates from "../../_utils/getStates";
 import getPropertyTypes from "../../_utils/getPropertyTypes";
+import getPropertyStatuses, {
+  PropertyStatusType,
+} from "@/app/_utils/getPropertyStatuses";
 
 type PropertiesResponse = {
   message?: string;
@@ -26,17 +28,12 @@ async function OwnerProperties({
   const page = Number(searchParams.page) || 1;
   const limit = 20;
 
-  const validateStatuses = Object.values(PropertyStatusType);
-
-  const property_status_id = validateStatuses.includes(
-    searchParams.property_status_id as PropertyStatusType
-  )
-    ? (searchParams.property_status_id as PropertyStatusType)
-    : undefined;
-
   if (!searchParams.page) {
     redirect(`/owner-properties?page=${page}&limit=${limit}`);
   }
+
+  // get existing property_status_id from query parameter
+  const property_status_id = parseInt(searchParams.property_status_id || "0");
 
   const {
     message,
@@ -49,13 +46,16 @@ async function OwnerProperties({
 
   const propertyTypes = getPropertyTypes();
 
+  const propertyStatuses: PropertyStatusType[] =
+    (await getPropertyStatuses()) || [];
+
   return (
     <div className="mx-5 my-3 sm:mx-8 sm:my-4 md:mx-10 md:my-6 lg:mx-12 lg:my-8 xl:mx-14 xl:my-10 2xl:mx-16 2xl:my-12">
       <h1 className="text-center font-bold text-4xl">Properties</h1>
 
       <CreateProperty states={states} propertyTypes={propertyTypes} />
 
-      <Filter />
+      <Filter propertyStatuses={propertyStatuses} />
 
       <Pagination count={count} />
 
@@ -87,7 +87,7 @@ export const metadata = {
 const getProperties = async (
   page: number,
   limit: number,
-  property_status_id: PropertyStatus
+  property_status_id: number
 ): Promise<PropertiesResponse> => {
   const token = getToken();
 
