@@ -7,6 +7,9 @@ import getStates, { StateType } from "@/app/_utils/getStates";
 import getPropertyTypes, {
   PropertyTypesType,
 } from "@/app/_utils/getPropertyTypes";
+import getPropertyStatuses, {
+  PropertyStatusType,
+} from "@/app/_utils/getPropertyStatuses";
 
 type PropsType = {
   params: {
@@ -33,7 +36,10 @@ async function PropertyDetails({ params }: PropsType) {
 
   const propertyTypes: PropertyTypesType[] = (await getPropertyTypes()) || [];
 
-  console.log(property);
+  const propertyStatuses: PropertyStatusType[] =
+    (await getPropertyStatuses()) || [];
+
+  console.log(propertyStatuses);
 
   return (
     <div className="m-20">
@@ -53,6 +59,7 @@ async function PropertyDetails({ params }: PropsType) {
         property={property}
         states={states}
         propertyTypes={propertyTypes}
+        propertyStatuses={propertyStatuses}
       />
     </div>
   );

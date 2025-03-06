@@ -26,14 +26,21 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import revalidateRoute from "@/app/_utils/revalidateRoute";
+import { PropertyStatusType } from "@/app/_utils/getPropertyStatuses";
 
 type PropsType = {
   property: Property;
   states: StateType[];
   propertyTypes: PropertyTypesType[];
+  propertyStatuses: PropertyStatusType[];
 };
 
-function EditForm({ property, states, propertyTypes }: PropsType) {
+function EditForm({
+  property,
+  states,
+  propertyTypes,
+  propertyStatuses,
+}: PropsType) {
   const {
     control,
     handleSubmit,
@@ -330,6 +337,40 @@ function EditForm({ property, states, propertyTypes }: PropsType) {
               errorMessage={errors?.property_type_id?.message}
             />
           </div>
+        </div>
+
+        <div>
+          {/* Input property status */}
+          <Label htmlFor="property_status_id">Status</Label>
+
+          <Controller
+            name="property_status_id"
+            control={control}
+            defaultValue={property.property_status_id}
+            render={({ field: { value, onChange } }) => (
+              <Select
+                value={value.toString()}
+                onValueChange={(selectedValue) =>
+                  onChange(parseInt(selectedValue))
+                }
+              >
+                <SelectTrigger id="property_status_id">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {propertyStatuses.map((propertyStatus) => (
+                    <SelectItem
+                      key={propertyStatus.id}
+                      value={propertyStatus.id.toString()}
+                    >
+                      {formatValueFromDb(propertyStatus.name)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
 
         <div className="flex justify-end my-2">

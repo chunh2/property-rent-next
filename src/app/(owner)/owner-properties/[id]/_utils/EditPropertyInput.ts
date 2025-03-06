@@ -49,6 +49,12 @@ export const EditPropertySchema = z.object({
   state_id: z
     .number({ required_error: "State is required" })
     .min(1, "Invalid state"),
+
+  property_status_id: z
+    .number({
+      required_error: "Property status is required",
+    })
+    .min(1, "Invalid status"),
 });
 
 export type EditPropertyType = z.infer<typeof EditPropertySchema>;
