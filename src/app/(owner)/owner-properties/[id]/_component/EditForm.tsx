@@ -32,6 +32,7 @@ import { useState } from "react";
 import PropertyImageType from "../../utils/PropertyImageType";
 import PropertyImagesPreview from "../../_component/PropertyImagesPreview";
 import PropertyImagesPreviewFileFormat from "./PropertyImagesPreviewFileFormat";
+import DeleteAlertDialog from "./DeleteAlertDialog";
 
 type PropsType = {
   property: Property;
@@ -180,6 +181,12 @@ function EditForm({
       ...(property_images_ids_DELETE || []),
       id.toString(),
     ]);
+  };
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const deleteProperty = (id: number) => {
+    console.log(id);
   };
 
   return (
@@ -475,8 +482,17 @@ function EditForm({
           />
         </div>
 
-        <div className="flex justify-end my-2">
-          <Button type="submit">Update</Button>
+        <div className="flex flex-col-reverse sm:flex-row sm:justify-between mt-20">
+          <DeleteAlertDialog
+            deleteDialogOpen={deleteDialogOpen}
+            setDeleteDialogOpen={setDeleteDialogOpen}
+            id={property.id}
+            deleteProperty={deleteProperty}
+          />
+
+          <Button type="submit" className="m-1">
+            Update
+          </Button>
         </div>
       </form>
     </>
