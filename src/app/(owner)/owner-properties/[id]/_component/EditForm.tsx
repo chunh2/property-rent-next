@@ -185,10 +185,6 @@ function EditForm({
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const deleteProperty = (id: number) => {
-    console.log(id);
-  };
-
   return (
     <>
       <form onSubmit={handleSubmit(handleUpdate)}>
@@ -487,7 +483,6 @@ function EditForm({
             deleteDialogOpen={deleteDialogOpen}
             setDeleteDialogOpen={setDeleteDialogOpen}
             id={property.id}
-            deleteProperty={deleteProperty}
           />
 
           <Button type="submit" className="m-1">
