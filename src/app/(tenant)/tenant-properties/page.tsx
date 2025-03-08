@@ -4,6 +4,8 @@ import PropertyCard from "./_component/PropertyCard";
 import PropertyType from "./_utils/PropertyType";
 import Search from "./_component/Search";
 import Pagination from "./_component/Pagination";
+import getStates, { StateType } from "@/app/_utils/getStates";
+import FilterSection from "./_component/FilterSection";
 
 async function TenantProperties({
   searchParams,
@@ -37,6 +39,8 @@ async function TenantProperties({
     error,
   }: Response = await getProperties(query);
 
+  const states: StateType[] = (await getStates()) || [];
+
   return (
     <>
       <div className="mx-5 my-3 sm:mx-8 sm:my-4 md:mx-10 md:my-6 lg:mx-12 lg:my-8 xl:mx-14 xl:my-10 2xl:mx-16 2xl:my-12">
@@ -45,6 +49,12 @@ async function TenantProperties({
         <div className="my-5 flex justify-center">
           <div className="w-full sm:w-3/5">
             <Search />
+          </div>
+        </div>
+
+        <div className="flex justify-center my-5">
+          <div className="w-full sm:w-3/5 lg:w-1/2 xl:w-2/5">
+            <FilterSection states={states} />
           </div>
         </div>
 
