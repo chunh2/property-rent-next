@@ -6,6 +6,9 @@ import Search from "./_component/Search";
 import Pagination from "./_component/Pagination";
 import getStates, { StateType } from "@/app/_utils/getStates";
 import FilterSection from "./_component/FilterSection";
+import getPropertyTypes, {
+  PropertyTypesType,
+} from "@/app/_utils/getPropertyTypes";
 
 async function TenantProperties({
   searchParams,
@@ -41,6 +44,8 @@ async function TenantProperties({
 
   const states: StateType[] = (await getStates()) || [];
 
+  const propertyTypes: PropertyTypesType[] = (await getPropertyTypes()) || [];
+
   return (
     <>
       <div className="mx-5 my-3 sm:mx-8 sm:my-4 md:mx-10 md:my-6 lg:mx-12 lg:my-8 xl:mx-14 xl:my-10 2xl:mx-16 2xl:my-12">
@@ -54,7 +59,7 @@ async function TenantProperties({
 
         <div className="flex justify-center my-5">
           <div className="w-full sm:w-3/5 lg:w-1/2 xl:w-2/5">
-            <FilterSection states={states} />
+            <FilterSection states={states} propertyTypes={propertyTypes} />
           </div>
         </div>
 

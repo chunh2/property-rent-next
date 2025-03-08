@@ -14,12 +14,16 @@ import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
+import PropertyTypeFilter from "./PropertyTypeFilter";
+import { PropertyTypesType } from "@/app/_utils/getPropertyTypes";
+import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 
 type PropsType = {
   states: StateType[];
+  propertyTypes: PropertyTypesType[];
 };
 
-function FilterSection({ states }: PropsType) {
+function FilterSection({ states, propertyTypes }: PropsType) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -43,10 +47,33 @@ function FilterSection({ states }: PropsType) {
 
   //   State END
 
+  // Property Type START
+
+  const [openPropertyType, setOpenPropertyType] = useState(false);
+  const [selectedPropertyType, setSelectedPropertyType] = useState<
+    undefined | PropertyTypesType
+  >(undefined);
+
+  const handleSelectedPropertyType = (propertyType: PropertyTypesType) => {
+    setSelectedPropertyType(propertyType);
+
+    setOpenPropertyType(false);
+  };
+
+  const clearSelectedPropertyType = () => {
+    setSelectedPropertyType(undefined);
+  };
+
+  // Property Type END
+
   const filters = [
     {
       key: "state_id",
       value: selectedState?.id.toString() || "",
+    },
+    {
+      key: "property_type_id",
+      value: selectedPropertyType?.id.toString() || "",
     },
   ];
 
@@ -78,7 +105,7 @@ function FilterSection({ states }: PropsType) {
           <p className="text-center">Filter</p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="">
+      <CardContent className="md:flex md:gap-5">
         <StateFilter
           states={states}
           openState={openState}
@@ -87,9 +114,18 @@ function FilterSection({ states }: PropsType) {
           handleSelectState={handleSelectState}
           clearSelectedState={clearSelectedState}
         />
+
+        <PropertyTypeFilter
+          propertyTypes={propertyTypes}
+          openPropertyType={openPropertyType}
+          setOpenPropertyType={setOpenPropertyType}
+          selectedPropertyType={selectedPropertyType}
+          handleSelectedPropertyType={handleSelectedPropertyType}
+          clearSelectedPropertyType={clearSelectedPropertyType}
+        />
       </CardContent>
 
-      <CardFooter className="pb-3">
+      <CardFooter className="pb-3 gap-1">
         {selectedState?.name ? (
           <div className="group">
             <Badge>
@@ -98,6 +134,19 @@ function FilterSection({ states }: PropsType) {
                 className="ml-1 cursor-pointer hidden group-hover:block"
                 size={12}
                 onClick={clearSelectedState}
+              />
+            </Badge>
+          </div>
+        ) : null}
+
+        {selectedPropertyType?.name ? (
+          <div className="group">
+            <Badge>
+              {formatValueFromDb(selectedPropertyType?.name)}{" "}
+              <X
+                className="ml-1 cursor-pointer hidden group-hover:block"
+                size={12}
+                onClick={clearSelectedPropertyType}
               />
             </Badge>
           </div>
