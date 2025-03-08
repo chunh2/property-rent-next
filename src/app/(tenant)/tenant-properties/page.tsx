@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import getProperties from "./_utils/getProperties";
 import PropertyCard from "./_component/PropertyCard";
 import PropertyType from "./_utils/PropertyType";
+import Search from "./_component/Search";
 
 async function TenantProperties({
   searchParams,
@@ -39,6 +40,12 @@ async function TenantProperties({
     <>
       <div className="mx-5 my-3 sm:mx-8 sm:my-4 md:mx-10 md:my-6 lg:mx-12 lg:my-8 xl:mx-14 xl:my-10 2xl:mx-16 2xl:my-12">
         <h1 className="text-center font-bold text-4xl">Properties</h1>
+
+        <div className="my-5 flex justify-center">
+          <div className="w-full sm:w-3/5">
+            <Search />
+          </div>
+        </div>
 
         <div className="my-5">
           {properties?.length ?? 0 > 0 ? (
