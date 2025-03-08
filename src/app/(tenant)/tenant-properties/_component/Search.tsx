@@ -27,6 +27,9 @@ function Search() {
     // set query 'search'
     if (search.trim()) {
       query.set("search", search);
+
+      // reset to page 1
+      query.set("page", "1");
     } else {
       query.delete("search");
     }
