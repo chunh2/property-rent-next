@@ -3,6 +3,7 @@ import getProperties from "./_utils/getProperties";
 import PropertyCard from "./_component/PropertyCard";
 import PropertyType from "./_utils/PropertyType";
 import Search from "./_component/Search";
+import Pagination from "./_component/Pagination";
 
 async function TenantProperties({
   searchParams,
@@ -47,6 +48,8 @@ async function TenantProperties({
           </div>
         </div>
 
+        <Pagination count={count} />
+
         <div className="my-5">
           {properties?.length ?? 0 > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
@@ -72,8 +75,8 @@ export const metadata = {
 };
 
 type Response = {
-  message?: string;
-  data?: PropertyType[];
-  count?: number;
-  error?: string;
+  message: string;
+  data: PropertyType[];
+  count: number;
+  error: string;
 };
