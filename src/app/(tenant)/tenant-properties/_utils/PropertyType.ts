@@ -21,6 +21,8 @@ type PropertyType = {
   property_status: PropertyStatusType;
 
   property_images: PropertyImageType[];
+
+  user: UserType;
 };
 
 type PropertyTypeType = {
@@ -41,6 +43,13 @@ type PropertyStatusType = {
 type PropertyImageType = {
   id: number;
   image_path: string;
+};
+
+type UserType = {
+  user_id: number;
+  name: string;
+  email: string;
+  phone: string;
 };
 
 export default PropertyType;
