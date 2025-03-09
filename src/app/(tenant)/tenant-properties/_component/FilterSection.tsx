@@ -31,8 +31,14 @@ function FilterSection({ states, propertyTypes }: PropsType) {
 
   const [openState, setOpenState] = useState(false);
 
+  const state_id_query = searchParams.get("state_id") || "";
+
+  const state_query = states.find(
+    (state: StateType) => parseInt(state_id_query) === state.id
+  );
+
   const [selectedState, setSelectedState] = useState<undefined | StateType>(
-    undefined
+    state_query || undefined
   );
 
   const handleSelectState = (state: StateType) => {
@@ -50,9 +56,17 @@ function FilterSection({ states, propertyTypes }: PropsType) {
   // Property Type START
 
   const [openPropertyType, setOpenPropertyType] = useState(false);
+
+  const property_type_id_query = searchParams.get("property_type_id") || "";
+
+  const property_type_query = propertyTypes.find(
+    (propertyType: PropertyTypesType) =>
+      propertyType.id === parseInt(property_type_id_query)
+  );
+
   const [selectedPropertyType, setSelectedPropertyType] = useState<
     undefined | PropertyTypesType
-  >(undefined);
+  >(property_type_query || undefined);
 
   const handleSelectedPropertyType = (propertyType: PropertyTypesType) => {
     setSelectedPropertyType(propertyType);
