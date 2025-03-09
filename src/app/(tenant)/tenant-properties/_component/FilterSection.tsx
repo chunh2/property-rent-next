@@ -250,6 +250,20 @@ function FilterSection({ states, propertyTypes }: PropsType) {
             <Badge>{formatValueFromDb(selectedPropertyType?.name)}</Badge>
           </div>
         ) : null}
+
+        {/* Min Price */}
+        {min_price_query ? (
+          <div>
+            <Badge>From RM {min_price_query}</Badge>
+          </div>
+        ) : null}
+
+        {/* Max Price */}
+        {max_price_query ? (
+          <div>
+            <Badge>Up to RM {max_price_query}</Badge>
+          </div>
+        ) : null}
       </div>
     </>
   );
