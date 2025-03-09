@@ -10,7 +10,7 @@ function PropertyCard({ property }: { property: PropertyType }) {
 
   return (
     <>
-      <Link href={`/owner-properties/${id}`}>
+      <Link href={`/owner-properties/${id}`} draggable={false}>
         <Card>
           <CardHeader className="w-full p-0">
             <div className="text-center">
@@ -19,6 +19,7 @@ function PropertyCard({ property }: { property: PropertyType }) {
                 alt={`${property.property_type.name} - ${property.title}`}
                 width={800}
                 height={600}
+                draggable={false}
                 className="w-full h-full object-cover rounded-t-lg"
               />
             </div>
