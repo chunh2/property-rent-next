@@ -3,7 +3,7 @@ import Property from "../utils/PropertyType";
 import Image from "next/image";
 import Link from "next/link";
 
-function PropertyCard({ property }: { property: Property }) {
+async function PropertyCard({ property }: { property: Property }) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const { id } = property;

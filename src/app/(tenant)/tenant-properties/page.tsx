@@ -9,6 +9,8 @@ import FilterSection from "./_component/FilterSection";
 import getPropertyTypes, {
   PropertyTypesType,
 } from "@/app/_utils/getPropertyTypes";
+import { Suspense } from "react";
+import Loading from "@/app/_utilsComponents/Loading";
 
 async function TenantProperties({
   searchParams,
@@ -65,19 +67,21 @@ async function TenantProperties({
 
         <Pagination count={count} />
 
-        <div className="my-5">
-          {properties?.length ?? 0 > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
-              {properties?.map((property: PropertyType) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 text-center text-2xl font-bold">
-              {error || "Properties not found"}
-            </p>
-          )}
-        </div>
+        <Suspense fallback={<Loading />}>
+          <div className="my-5">
+            {properties?.length ?? 0 > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
+                {properties?.map((property: PropertyType) => (
+                  <PropertyCard key={property.id} property={property} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-center text-2xl font-bold">
+                {error || "Properties not found"}
+              </p>
+            )}
+          </div>
+        </Suspense>
       </div>
     </>
   );
