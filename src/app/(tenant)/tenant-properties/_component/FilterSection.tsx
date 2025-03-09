@@ -163,36 +163,44 @@ function FilterSection({ states, propertyTypes }: PropsType) {
           <p className="text-center">Filter</p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="md:flex md:gap-5">
-        <StateFilter
-          states={states}
-          openState={openState}
-          setOpenState={setOpenState}
-          selectedState={selectedState}
-          handleSelectState={handleSelectState}
-          clearSelectedState={clearSelectedState}
-        />
+      <CardContent className="grid gap-5 sm:grid-cols-6">
+        <div className="sm:col-span-3">
+          <StateFilter
+            states={states}
+            openState={openState}
+            setOpenState={setOpenState}
+            selectedState={selectedState}
+            handleSelectState={handleSelectState}
+            clearSelectedState={clearSelectedState}
+          />
+        </div>
 
-        <PropertyTypeFilter
-          propertyTypes={propertyTypes}
-          openPropertyType={openPropertyType}
-          setOpenPropertyType={setOpenPropertyType}
-          selectedPropertyType={selectedPropertyType}
-          handleSelectedPropertyType={handleSelectedPropertyType}
-          clearSelectedPropertyType={clearSelectedPropertyType}
-        />
+        <div className="sm:col-span-3">
+          <PropertyTypeFilter
+            propertyTypes={propertyTypes}
+            openPropertyType={openPropertyType}
+            setOpenPropertyType={setOpenPropertyType}
+            selectedPropertyType={selectedPropertyType}
+            handleSelectedPropertyType={handleSelectedPropertyType}
+            clearSelectedPropertyType={clearSelectedPropertyType}
+          />
+        </div>
 
-        <MinPriceFilter
-          minPrice={minPrice}
-          handleChangeMinPrice={handleChangeMinPrice}
-          clearMinPrice={clearMinPrice}
-        />
+        <div className="sm:col-span-6 md:col-span-3">
+          <MinPriceFilter
+            minPrice={minPrice}
+            handleChangeMinPrice={handleChangeMinPrice}
+            clearMinPrice={clearMinPrice}
+          />
+        </div>
 
-        <MaxPriceFilter
-          maxPrice={maxPrice}
-          handleChangeMaxPrice={handleChangeMaxPrice}
-          clearMaxPrice={clearMaxPrice}
-        />
+        <div className="sm:col-span-6 md:col-span-3">
+          <MaxPriceFilter
+            maxPrice={maxPrice}
+            handleChangeMaxPrice={handleChangeMaxPrice}
+            clearMaxPrice={clearMaxPrice}
+          />
+        </div>
       </CardContent>
 
       <CardFooter className="pb-3 gap-1">
