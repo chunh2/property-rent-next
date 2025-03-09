@@ -156,6 +156,13 @@ function FilterSection({ states, propertyTypes }: PropsType) {
     router.push(`?${query.toString()}`);
   };
 
+  const clearFilter = () => {
+    setSelectedState(undefined);
+    setSelectedPropertyType(undefined);
+    setMinPrice("");
+    setMaxPrice("");
+  };
+
   return (
     <Card className="my-5">
       <CardHeader>
@@ -232,6 +239,14 @@ function FilterSection({ states, propertyTypes }: PropsType) {
       </CardFooter>
 
       <div className="flex justify-end mb-2 mr-2">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={clearFilter}
+          className="mx-1"
+        >
+          Clear
+        </Button>
         <Button type="button" onClick={applyFilter}>
           Apply
         </Button>
