@@ -17,6 +17,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import PropertyTypeFilter from "./PropertyTypeFilter";
 import { PropertyTypesType } from "@/app/_utils/getPropertyTypes";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
+import MinPriceFilter from "./MinPriceFilter";
+import MaxPriceFilter from "./MaxPriceFilter";
 
 type PropsType = {
   states: StateType[];
@@ -80,6 +82,40 @@ function FilterSection({ states, propertyTypes }: PropsType) {
 
   // Property Type END
 
+  // Min Price START
+
+  const min_price_query = searchParams.get("min_price") || "";
+
+  const [minPrice, setMinPrice] = useState(min_price_query);
+
+  const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMinPrice(value);
+  };
+
+  const clearMinPrice = () => {
+    setMinPrice("");
+  };
+
+  // Min Price END
+
+  // Max Price START
+
+  const max_price_query = searchParams.get("max_price") || "";
+
+  const [maxPrice, setMaxPrice] = useState(max_price_query);
+
+  const handleChangeMaxPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMaxPrice(value);
+  };
+
+  const clearMaxPrice = () => {
+    setMaxPrice("");
+  };
+
+  // Max Price END
+
   const filters = [
     {
       key: "state_id",
@@ -88,6 +124,14 @@ function FilterSection({ states, propertyTypes }: PropsType) {
     {
       key: "property_type_id",
       value: selectedPropertyType?.id.toString() || "",
+    },
+    {
+      key: "min_price",
+      value: minPrice || "",
+    },
+    {
+      key: "max_price",
+      value: maxPrice || "",
     },
   ];
 
@@ -136,6 +180,18 @@ function FilterSection({ states, propertyTypes }: PropsType) {
           selectedPropertyType={selectedPropertyType}
           handleSelectedPropertyType={handleSelectedPropertyType}
           clearSelectedPropertyType={clearSelectedPropertyType}
+        />
+
+        <MinPriceFilter
+          minPrice={minPrice}
+          handleChangeMinPrice={handleChangeMinPrice}
+          clearMinPrice={clearMinPrice}
+        />
+
+        <MaxPriceFilter
+          maxPrice={maxPrice}
+          handleChangeMaxPrice={handleChangeMaxPrice}
+          clearMaxPrice={clearMaxPrice}
         />
       </CardContent>
 
