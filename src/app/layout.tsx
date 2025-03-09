@@ -18,7 +18,7 @@ export default function RootLayout({
         <TanstackProvider>
           <>{children}</>
         </TanstackProvider>
-        <Toaster />
+        <Toaster position="top-center" />
       </body>
     </html>
   );
