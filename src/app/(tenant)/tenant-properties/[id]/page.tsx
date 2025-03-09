@@ -4,6 +4,7 @@ import getPropertyById from "./_utils/getPropertyById";
 import PropertyInfoCard from "./_component/PropertyInfoCard";
 import OwnerInfoCard from "./_component/OwnerInfoCard";
 import PropertyImages from "./_component/PropertyImages";
+import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 
 type PropsType = {
   params: {
@@ -51,3 +52,24 @@ async function PropertyDetails({ params }: PropsType) {
 }
 
 export default PropertyDetails;
+
+export const generateMetadata = async ({
+  params: { id },
+}: {
+  params: {
+    id: string;
+  };
+}) => {
+  const { data: property }: Response = await getPropertyById(id);
+
+  const {
+    title,
+    property_type: { name },
+  } = property;
+
+  const metadata = {
+    title: `${title} | ${formatValueFromDb(name)}` || "Loading...",
+  };
+
+  return metadata;
+};
