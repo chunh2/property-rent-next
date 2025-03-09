@@ -66,7 +66,7 @@ function StateFilter({
                   {states?.map((state: StateType) => (
                     <CommandItem
                       key={state.id}
-                      value={state.id.toString()}
+                      value={state.name}
                       onSelect={() => handleSelectState(state)}
                     >
                       {state.name}

@@ -67,7 +67,7 @@ function PropertyTypeFilter({
                   {propertyTypes?.map((propertyType: PropertyTypesType) => (
                     <CommandItem
                       key={propertyType.id}
-                      value={propertyType.id.toString()}
+                      value={propertyType.name}
                       onSelect={() => handleSelectedPropertyType(propertyType)}
                     >
                       {formatValueFromDb(propertyType.name)}
