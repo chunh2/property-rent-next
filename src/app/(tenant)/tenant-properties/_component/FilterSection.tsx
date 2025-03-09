@@ -19,6 +19,12 @@ import { PropertyTypesType } from "@/app/_utils/getPropertyTypes";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 import MinPriceFilter from "./MinPriceFilter";
 import MaxPriceFilter from "./MaxPriceFilter";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type PropsType = {
   states: StateType[];
@@ -164,53 +170,75 @@ function FilterSection({ states, propertyTypes }: PropsType) {
   };
 
   return (
-    <Card className="my-5">
-      <CardHeader>
-        <CardTitle>
-          <p className="text-center">Filter</p>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-5 sm:grid-cols-6">
-        <div className="sm:col-span-3">
-          <StateFilter
-            states={states}
-            openState={openState}
-            setOpenState={setOpenState}
-            selectedState={selectedState}
-            handleSelectState={handleSelectState}
-            clearSelectedState={clearSelectedState}
-          />
-        </div>
+    <>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="filter">
+          <AccordionTrigger className="flex justify-center">
+            <p className="mx-2">Filter</p>
+          </AccordionTrigger>
 
-        <div className="sm:col-span-3">
-          <PropertyTypeFilter
-            propertyTypes={propertyTypes}
-            openPropertyType={openPropertyType}
-            setOpenPropertyType={setOpenPropertyType}
-            selectedPropertyType={selectedPropertyType}
-            handleSelectedPropertyType={handleSelectedPropertyType}
-            clearSelectedPropertyType={clearSelectedPropertyType}
-          />
-        </div>
+          <AccordionContent>
+            <Card className="py-5">
+              <CardContent className="grid gap-5 sm:grid-cols-6">
+                <div className="sm:col-span-3">
+                  <StateFilter
+                    states={states}
+                    openState={openState}
+                    setOpenState={setOpenState}
+                    selectedState={selectedState}
+                    handleSelectState={handleSelectState}
+                    clearSelectedState={clearSelectedState}
+                  />
+                </div>
 
-        <div className="sm:col-span-6 md:col-span-3">
-          <MinPriceFilter
-            minPrice={minPrice}
-            handleChangeMinPrice={handleChangeMinPrice}
-            clearMinPrice={clearMinPrice}
-          />
-        </div>
+                <div className="sm:col-span-3">
+                  <PropertyTypeFilter
+                    propertyTypes={propertyTypes}
+                    openPropertyType={openPropertyType}
+                    setOpenPropertyType={setOpenPropertyType}
+                    selectedPropertyType={selectedPropertyType}
+                    handleSelectedPropertyType={handleSelectedPropertyType}
+                    clearSelectedPropertyType={clearSelectedPropertyType}
+                  />
+                </div>
 
-        <div className="sm:col-span-6 md:col-span-3">
-          <MaxPriceFilter
-            maxPrice={maxPrice}
-            handleChangeMaxPrice={handleChangeMaxPrice}
-            clearMaxPrice={clearMaxPrice}
-          />
-        </div>
-      </CardContent>
+                <div className="sm:col-span-6 md:col-span-3">
+                  <MinPriceFilter
+                    minPrice={minPrice}
+                    handleChangeMinPrice={handleChangeMinPrice}
+                    clearMinPrice={clearMinPrice}
+                  />
+                </div>
 
-      <CardFooter className="pb-3 gap-1">
+                <div className="sm:col-span-6 md:col-span-3">
+                  <MaxPriceFilter
+                    maxPrice={maxPrice}
+                    handleChangeMaxPrice={handleChangeMaxPrice}
+                    clearMaxPrice={clearMaxPrice}
+                  />
+                </div>
+              </CardContent>
+
+              <div className="flex justify-end mb-2 mr-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={clearFilter}
+                  className="mx-1"
+                >
+                  Clear
+                </Button>
+                <Button type="button" onClick={applyFilter}>
+                  Apply
+                </Button>
+              </div>
+            </Card>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      {/* Render selected filter */}
+      <div className="flex gap-1 my-1">
         {selectedState?.name ? (
           <div className="group">
             <Badge>
@@ -236,22 +264,8 @@ function FilterSection({ states, propertyTypes }: PropsType) {
             </Badge>
           </div>
         ) : null}
-      </CardFooter>
-
-      <div className="flex justify-end mb-2 mr-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={clearFilter}
-          className="mx-1"
-        >
-          Clear
-        </Button>
-        <Button type="button" onClick={applyFilter}>
-          Apply
-        </Button>
       </div>
-    </Card>
+    </>
   );
 }
 
