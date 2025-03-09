@@ -240,28 +240,14 @@ function FilterSection({ states, propertyTypes }: PropsType) {
       {/* Render selected filter */}
       <div className="flex gap-1 my-1">
         {selectedState?.name ? (
-          <div className="group">
-            <Badge>
-              {selectedState?.name}{" "}
-              <X
-                className="ml-1 cursor-pointer hidden group-hover:block"
-                size={12}
-                onClick={clearSelectedState}
-              />
-            </Badge>
+          <div>
+            <Badge>{selectedState?.name}</Badge>
           </div>
         ) : null}
 
         {selectedPropertyType?.name ? (
-          <div className="group">
-            <Badge>
-              {formatValueFromDb(selectedPropertyType?.name)}{" "}
-              <X
-                className="ml-1 cursor-pointer hidden group-hover:block"
-                size={12}
-                onClick={clearSelectedPropertyType}
-              />
-            </Badge>
+          <div>
+            <Badge>{formatValueFromDb(selectedPropertyType?.name)}</Badge>
           </div>
         ) : null}
       </div>
