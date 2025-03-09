@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -19,6 +19,12 @@ function Search() {
     if (value === "") {
       onSearch(value);
     }
+  };
+
+  const clearSearch = () => {
+    setSearch("");
+
+    onSearch("");
   };
 
   const onSearch = (search: string) => {
@@ -40,17 +46,28 @@ function Search() {
   return (
     <>
       <div className="flex">
-        <Input
-          value={search}
-          onChange={handleChangeSearch}
-          placeholder="Search by title"
-          className="rounded-r-none"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onSearch(search);
-            }
-          }}
-        />
+        <div className="w-full relative">
+          <Input
+            value={search}
+            onChange={handleChangeSearch}
+            placeholder="Search by title"
+            className="rounded-r-none"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSearch(search);
+              }
+            }}
+          />
+          {search ? (
+            <button
+              type="button"
+              className="absolute right-1 top-1 rounded-md hover:bg-neutral-100 p-1"
+              onClick={clearSearch}
+            >
+              <X size={20} />
+            </button>
+          ) : null}
+        </div>
         <Button onClick={() => onSearch(search)} className="rounded-l-none">
           <SearchIcon />
         </Button>
