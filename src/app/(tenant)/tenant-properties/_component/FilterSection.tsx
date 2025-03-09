@@ -239,15 +239,17 @@ function FilterSection({ states, propertyTypes }: PropsType) {
 
       {/* Render selected filter */}
       <div className="flex gap-1 my-1">
-        {selectedState?.name ? (
+        {/* State */}
+        {state_query?.name ? (
           <div>
-            <Badge>{selectedState?.name}</Badge>
+            <Badge>{state_query?.name}</Badge>
           </div>
         ) : null}
 
-        {selectedPropertyType?.name ? (
+        {/* Property Type */}
+        {property_type_query?.name ? (
           <div>
-            <Badge>{formatValueFromDb(selectedPropertyType?.name)}</Badge>
+            <Badge>{formatValueFromDb(property_type_query?.name)}</Badge>
           </div>
         ) : null}
 
