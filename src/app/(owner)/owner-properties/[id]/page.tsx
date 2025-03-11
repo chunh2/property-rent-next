@@ -42,7 +42,7 @@ async function PropertyDetails({ params }: PropsType) {
   console.log(propertyStatuses);
 
   return (
-    <div className="m-20">
+    <div className="mx-4 my-20 sm:mx-20">
       <div className="flex justify-start">
         <NavigateBack />
       </div>
