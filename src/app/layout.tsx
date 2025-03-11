@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import PropertyTypesProvider from "./_context/PropertyTypesContext";
 import StatesProvider from "./_context/StatesContext";
 import PropertyStatusesProvider from "./_context/PropertyStatusesContext";
+import RolesProvider from "./_context/RolesContext";
 
 export const metadata = {
   title: "Next.js",
@@ -22,7 +23,9 @@ export default function RootLayout({
           <PropertyTypesProvider>
             <StatesProvider>
               <PropertyStatusesProvider>
-                <>{children}</>
+                <RolesProvider>
+                  <>{children}</>
+                </RolesProvider>
               </PropertyStatusesProvider>
             </StatesProvider>
           </PropertyTypesProvider>
