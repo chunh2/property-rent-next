@@ -20,7 +20,7 @@ import { X } from "lucide-react";
 import { useState } from "react";
 
 type PropsType = {
-  states: StateType[];
+  states: StateType[] | null;
   openState: boolean;
   setOpenState: (openState: boolean) => void;
   selectedState: undefined | StateType;

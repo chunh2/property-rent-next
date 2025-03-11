@@ -19,7 +19,7 @@ import {
 import { X } from "lucide-react";
 
 type PropsType = {
-  propertyTypes: PropertyTypesType[];
+  propertyTypes: PropertyTypesType[] | null;
   openPropertyType: boolean;
   setOpenPropertyType: (openPropertyType: boolean) => void;
   selectedPropertyType: undefined | PropertyTypesType;
