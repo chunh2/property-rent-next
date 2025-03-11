@@ -1,6 +1,7 @@
 import TanstackProvider from "@/utils/Provider/TanstackProvider";
 import "./globals.css";
 import { Toaster } from "sonner";
+import PropertyTypesProvider from "./_context/PropertyTypesContext";
 
 export const metadata = {
   title: "Next.js",
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <TanstackProvider>
-          <>{children}</>
+          <PropertyTypesProvider>
+            <>{children}</>
+          </PropertyTypesProvider>
         </TanstackProvider>
         <Toaster position="top-center" />
       </body>
