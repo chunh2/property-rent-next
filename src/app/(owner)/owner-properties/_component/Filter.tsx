@@ -1,20 +1,22 @@
 "use client";
 
+import { PropertyStatusesContext } from "@/app/_context/PropertyStatusesContext";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 import { PropertyStatusType } from "@/app/_utils/getPropertyStatuses";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-// import { PropertyStatusType } from "../utils/PropertyStatusType";
+import { useContext, useEffect, useState } from "react";
 
-type PropsType = {
-  propertyStatuses: PropertyStatusType[];
-};
+type PropsType = {};
 
-function Filter({ propertyStatuses }: PropsType) {
+function Filter({}: PropsType) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const propertyStatuses: PropertyStatusType[] | null = useContext(
+    PropertyStatusesContext
+  );
 
   const page = searchParams.get("page") || "1";
   const limit = searchParams.get("limit") || "20";
@@ -59,7 +61,7 @@ function Filter({ propertyStatuses }: PropsType) {
         onValueChange={handleChangeStatus}
       >
         <ToggleGroupItem value="0">All</ToggleGroupItem>
-        {propertyStatuses.map((status) => (
+        {propertyStatuses?.map((status) => (
           <ToggleGroupItem key={status.id} value={status.id.toString()}>
             {formatValueFromDb(status.name)}
           </ToggleGroupItem>
