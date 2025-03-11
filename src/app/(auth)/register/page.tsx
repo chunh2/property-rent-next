@@ -1,10 +1,7 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import RegisterForm from "./_components/RegisterForm";
-import getRoles, { RoleType } from "@/app/_utils/getRoles";
 
 async function Register() {
-  const roles: RoleType[] = (await getRoles()) || [];
-
   return (
     <>
       <div className="flex justify-center">
@@ -15,7 +12,7 @@ async function Register() {
             </CardTitle>
           </CardHeader>
 
-          <RegisterForm roles={roles} />
+          <RegisterForm />
         </Card>
       </div>
     </>

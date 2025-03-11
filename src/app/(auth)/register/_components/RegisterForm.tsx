@@ -13,6 +13,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { RoleType } from "@/app/_utils/getRoles";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
+import { useContext } from "react";
+import { RolesContext } from "@/app/_context/RolesContext";
 
 const RegisterFormSchema = z
   .object({
@@ -44,11 +46,9 @@ const RegisterFormSchema = z
 
 type RegisterFormType = z.infer<typeof RegisterFormSchema>;
 
-type PropsType = {
-  roles: RoleType[];
-};
+type PropsType = {};
 
-function RegisterForm({ roles }: PropsType) {
+function RegisterForm({}: PropsType) {
   const {
     control,
     handleSubmit,
@@ -56,6 +56,8 @@ function RegisterForm({ roles }: PropsType) {
   } = useForm({
     resolver: zodResolver(RegisterFormSchema),
   });
+
+  const roles: RoleType[] | null = useContext(RolesContext);
 
   const router = useRouter();
 
@@ -199,7 +201,7 @@ function RegisterForm({ roles }: PropsType) {
               defaultValue={[]}
               render={({ field: { value = [], onChange } }) => (
                 <>
-                  {roles.map((role) => (
+                  {roles?.map((role) => (
                     <div key={role.role_id} className="flex items-center my-1">
                       <Checkbox
                         id={role.role_id.toString()}
