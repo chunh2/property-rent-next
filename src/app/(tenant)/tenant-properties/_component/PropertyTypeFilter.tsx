@@ -43,7 +43,9 @@ function PropertyTypeFilter({
           <div className="flex">
             <PopoverTrigger asChild className="w-full md:w-auto">
               <Button variant="outline" type="button" role="combobox">
-                Select Type
+                {selectedPropertyType
+                  ? formatValueFromDb(selectedPropertyType.name)
+                  : "Select Type"}
               </Button>
             </PopoverTrigger>
 

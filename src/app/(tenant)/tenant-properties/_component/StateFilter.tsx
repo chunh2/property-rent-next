@@ -43,7 +43,7 @@ function StateFilter({
           <div className="flex">
             <PopoverTrigger asChild className="w-full md:w-auto">
               <Button variant="outline" type="button" role="combobox">
-                Select State
+                {selectedState ? selectedState.name : "Select State"}
               </Button>
             </PopoverTrigger>
             <Button
