@@ -1,10 +1,7 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import LoginForm from "./_components/LoginForm";
-import getRoles, { RoleType } from "@/app/_utils/getRoles";
 
 async function Login() {
-  const roles: RoleType[] = (await getRoles()) || [];
-
   return (
     <>
       <div className="flex justify-center">
@@ -15,7 +12,7 @@ async function Login() {
             </CardTitle>
           </CardHeader>
 
-          <LoginForm roles={roles} />
+          <LoginForm />
         </Card>
       </div>
     </>

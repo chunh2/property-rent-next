@@ -13,6 +13,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { RoleType } from "@/app/_utils/getRoles";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
+import { useContext } from "react";
+import { RolesContext } from "@/app/_context/RolesContext";
 
 const LoginFormSchema = z.object({
   email: z
@@ -28,11 +30,9 @@ const LoginFormSchema = z.object({
 
 type LoginFormType = z.infer<typeof LoginFormSchema>;
 
-type PropsType = {
-  roles: RoleType[];
-};
+type PropsType = {};
 
-function LoginForm({ roles }: PropsType) {
+function LoginForm({}: PropsType) {
   const {
     control,
     handleSubmit,
@@ -40,6 +40,8 @@ function LoginForm({ roles }: PropsType) {
   } = useForm({
     resolver: zodResolver(LoginFormSchema),
   });
+
+  const roles: RoleType[] | null = useContext(RolesContext);
 
   const router = useRouter();
 
@@ -146,7 +148,7 @@ function LoginForm({ roles }: PropsType) {
                   onValueChange={onChange}
                   value={value}
                 >
-                  {roles.map((role) => (
+                  {roles?.map((role) => (
                     <div className="flex items-center mt-1" key={role.role_id}>
                       <RadioGroupItem
                         value={role.role_id.toString()}
