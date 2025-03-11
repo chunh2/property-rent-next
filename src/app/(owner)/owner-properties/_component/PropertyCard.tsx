@@ -10,7 +10,7 @@ async function PropertyCard({ property }: { property: Property }) {
 
   return (
     <>
-      <Link href={`/owner-properties/${id}`}>
+      <Link href={`/owner-properties/${id}`} draggable={false}>
         <Card>
           <CardHeader className="w-full p-0">
             <div className="text-center">
@@ -20,6 +20,7 @@ async function PropertyCard({ property }: { property: Property }) {
                 width={800}
                 height={600}
                 className="w-full h-full object-cover rounded-t-lg"
+                draggable={false}
               />
             </div>
           </CardHeader>
