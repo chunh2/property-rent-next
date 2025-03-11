@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,21 +32,19 @@ import { PropertyTypesType } from "@/app/_utils/getPropertyTypes";
 import formatValueFromDb from "@/app/_utils/formatValueFromDb";
 import PropertyImagesPreview from "./PropertyImagesPreview";
 import { v4 as uuidv4 } from "uuid";
-import PropertyImageType, {
-  PropertyImageFileType,
-} from "../utils/PropertyImageType";
+import PropertyImageType from "../utils/PropertyImageType";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import revalidateRoute from "@/app/_utils/revalidateRoute";
+import { PropertyTypesContext } from "@/app/_context/PropertyTypesContext";
+import { StatesContext } from "@/app/_context/StatesContext";
 
-function CreateProperty({
-  states,
-  propertyTypes,
-}: {
-  states: Promise<StateType[] | undefined>;
-  propertyTypes: Promise<PropertyTypesType[] | undefined>;
-}) {
+function CreateProperty() {
   const [open, setOpen] = useState(false);
+
+  const propertyTypes: PropertyTypesType[] | null =
+    useContext(PropertyTypesContext);
+  const states: StateType[] | null = useContext(StatesContext);
 
   const {
     control,
@@ -73,30 +71,6 @@ function CreateProperty({
     reset();
     setImages([]);
   };
-
-  const [statesFetched, setStatesFetched] = useState<StateType[] | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    states.then((data: StateType[] | undefined) => {
-      if (data) {
-        setStatesFetched(data);
-      }
-    });
-  }, [states]);
-
-  const [propertyTypesFetched, setPropertyTypesFetched] = useState<
-    PropertyTypesType[] | undefined
-  >(undefined);
-
-  useEffect(() => {
-    propertyTypes.then((data: PropertyTypesType[] | undefined) => {
-      if (data) {
-        setPropertyTypesFetched(data);
-      }
-    });
-  }, [propertyTypes]);
 
   const submitForm = (data: CreatePropertyType) => {
     console.log(data);
@@ -337,7 +311,7 @@ function CreateProperty({
                     </SelectTrigger>
 
                     <SelectContent>
-                      {statesFetched?.map((state: StateType) => (
+                      {states?.map((state: StateType) => (
                         <SelectItem key={state.id} value={state.id.toString()}>
                           {state.name}
                         </SelectItem>
@@ -426,7 +400,7 @@ function CreateProperty({
                     </SelectTrigger>
 
                     <SelectContent>
-                      {propertyTypesFetched?.map((propertyType) => (
+                      {propertyTypes?.map((propertyType) => (
                         <SelectItem
                           key={propertyType.id}
                           value={propertyType.id.toString()}
