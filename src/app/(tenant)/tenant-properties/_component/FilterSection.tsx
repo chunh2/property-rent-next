@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,15 +25,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PropertyTypesContext } from "@/app/_context/PropertyTypesContext";
+import { StatesContext } from "@/app/_context/StatesContext";
 
-type PropsType = {
-  states: StateType[];
-  propertyTypes: PropertyTypesType[];
-};
+type PropsType = {};
 
-function FilterSection({ states, propertyTypes }: PropsType) {
+function FilterSection({}: PropsType) {
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const propertyTypes: PropertyTypesType[] | null =
+    useContext(PropertyTypesContext);
+  const states: StateType[] | null = useContext(StatesContext);
 
   //   state START
 
@@ -41,7 +44,7 @@ function FilterSection({ states, propertyTypes }: PropsType) {
 
   const state_id_query = searchParams.get("state_id") || "";
 
-  const state_query = states.find(
+  const state_query = states?.find(
     (state: StateType) => parseInt(state_id_query) === state.id
   );
 
@@ -67,7 +70,7 @@ function FilterSection({ states, propertyTypes }: PropsType) {
 
   const property_type_id_query = searchParams.get("property_type_id") || "";
 
-  const property_type_query = propertyTypes.find(
+  const property_type_query = propertyTypes?.find(
     (propertyType: PropertyTypesType) =>
       propertyType.id === parseInt(property_type_id_query)
   );
