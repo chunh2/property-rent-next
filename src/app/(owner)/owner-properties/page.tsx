@@ -6,8 +6,6 @@ import SearchParamsType from "./utils/SearchParamsType";
 import { redirect } from "next/navigation";
 import Filter from "./_component/Filter";
 import CreateProperty from "./_component/CreateProperty";
-import getStates from "../../_utils/getStates";
-import getPropertyTypes from "../../_utils/getPropertyTypes";
 import getPropertyStatuses, {
   PropertyStatusType,
 } from "@/app/_utils/getPropertyStatuses";
@@ -44,10 +42,6 @@ async function OwnerProperties({
     count,
   } = await getProperties(page, limit, property_status_id);
 
-  const states = getStates();
-
-  const propertyTypes = getPropertyTypes();
-
   const propertyStatuses: PropertyStatusType[] =
     (await getPropertyStatuses()) || [];
 
@@ -55,7 +49,7 @@ async function OwnerProperties({
     <div className="mx-5 my-3 sm:mx-8 sm:my-4 md:mx-10 md:my-6 lg:mx-12 lg:my-8 xl:mx-14 xl:my-10 2xl:mx-16 2xl:my-12">
       <h1 className="text-center font-bold text-4xl">Properties</h1>
 
-      <CreateProperty states={states} propertyTypes={propertyTypes} />
+      <CreateProperty />
 
       <Filter propertyStatuses={propertyStatuses} />
 
