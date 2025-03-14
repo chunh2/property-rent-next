@@ -12,10 +12,15 @@ type PropsType = {
     | "link"
     | "secondary"
     | "destructive";
+  path?: string;
 };
 
-function NavigateBack({ buttonVariant = "outline" }: PropsType) {
+function NavigateBack({ buttonVariant = "outline", path }: PropsType) {
   const router = useRouter();
+
+  const navigateTo = () => {
+    router.push(path || "/");
+  };
 
   const navigateBack = () => {
     router.back();
@@ -23,7 +28,10 @@ function NavigateBack({ buttonVariant = "outline" }: PropsType) {
 
   return (
     <>
-      <Button onClick={navigateBack} variant={buttonVariant}>
+      <Button
+        onClick={path ? navigateTo : navigateBack}
+        variant={buttonVariant}
+      >
         <ChevronLeftIcon />
       </Button>
     </>
