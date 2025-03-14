@@ -1,6 +1,12 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import PropertyType from "../../_utils/PropertyType";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import ContactButton from "./ContactButton";
 
 type PropsType = {
   property: PropertyType;
@@ -34,6 +40,10 @@ function OwnerInfoCard({ property }: PropsType) {
             </TableBody>
           </Table>
         </CardContent>
+
+        <CardFooter className="justify-end">
+          <ContactButton userId={property.user_id} />
+        </CardFooter>
       </Card>
     </>
   );
