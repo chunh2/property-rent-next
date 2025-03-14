@@ -42,6 +42,7 @@ function MessagesSection() {
     <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-5">
       {messages?.map((message: MessageType) => (
         <MessageBubble
+          key={message.id}
           authId={userId}
           sender={message.sender}
           message={message.content}
