@@ -10,4 +10,8 @@ function Chats() {
   );
 }
 
+export const metadata = {
+  title: "Chats | Tenant",
+};
+
 export default Chats;
