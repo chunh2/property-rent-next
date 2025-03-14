@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
-import Chats2 from "./page2";
-import MessageBubble from "./_component/MessageBubble";
+import ChatRooms from "./_component/ChatRooms";
 
 function Chats() {
   const cookiesInstance = cookies();
@@ -8,8 +7,9 @@ function Chats() {
 
   return (
     <>
-      <div>Chats</div>
-      <MessageBubble />
+      <h1 className="font-bold text-center text-4xl">Chats</h1>
+
+      <ChatRooms />
     </>
   );
 }
