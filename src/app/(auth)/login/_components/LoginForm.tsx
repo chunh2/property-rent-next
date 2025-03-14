@@ -67,7 +67,12 @@ function LoginForm({}: PropsType) {
       return res.json();
     },
     onSuccess: (data) => {
-      const { roleId } = data;
+      const {
+        roleId,
+        user: { user_id },
+      } = data;
+
+      sessionStorage.setItem("userId", user_id);
 
       if (roleId === "1") {
         router.replace("/tenant-properties");
