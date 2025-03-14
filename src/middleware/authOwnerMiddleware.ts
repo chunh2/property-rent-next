@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 const authOwnerMiddleware: MiddlewareType = async (req: NextRequest, next) => {
   const { pathname } = req.nextUrl;
 
-  const paths = ["/owner-properties"];
+  const paths = ["/owner-properties", "/owner-chats"];
 
   if (paths.some((path) => pathname.startsWith(path))) {
     console.log("Auth owner");

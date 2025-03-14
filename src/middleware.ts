@@ -8,5 +8,10 @@ export const middleware = composeMiddleware([
 ]);
 
 export const config = {
-  matcher: ["/owner-properties/:path*", "/tenant-properties/:path*"],
+  matcher: [
+    "/owner-properties/:path*",
+    "/owner-chats/:path*",
+    "/tenant-properties/:path*",
+    "/tenant-chats/:path*",
+  ],
 };

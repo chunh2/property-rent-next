@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 const authTenantMiddleware: MiddlewareType = async (req: NextRequest, next) => {
   const { pathname } = req.nextUrl;
 
-  const paths = ["/tenant-properties"];
+  const paths = ["/tenant-properties", "/tenant-chats"];
 
   if (paths.some((path) => pathname.startsWith(path))) {
     console.log("Auth tenant");
