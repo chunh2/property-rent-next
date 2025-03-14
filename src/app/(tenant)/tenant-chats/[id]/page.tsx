@@ -7,7 +7,7 @@ function ChatRoom() {
     <>
       <div className="mx-2 sm:mx-20">
         <div className="fixed top-20 sm:top-28">
-          <NavigateBack buttonVariant="ghost" />
+          <NavigateBack buttonVariant="ghost" path="/tenant-chats" />
         </div>
 
         <MessagesSection />
