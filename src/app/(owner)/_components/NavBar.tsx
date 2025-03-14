@@ -17,7 +17,7 @@ function NavBar() {
     },
     {
       title: "Chat",
-      href: "/chats",
+      href: "/owner-chats",
     },
   ];
 
