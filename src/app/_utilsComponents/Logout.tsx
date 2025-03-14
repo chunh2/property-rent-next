@@ -23,6 +23,7 @@ function Logout() {
 
   const logout = () => {
     deleteCookies("accessToken");
+    sessionStorage.clear();
 
     router.replace("/login");
   };
