@@ -30,17 +30,25 @@ function MessagesSection() {
 
   const messages: MessageType[] = data?.data || [];
 
+  const [messagesDisplay, setMessagesDisplay] = useState<MessageType[]>([]);
+
+  useEffect(() => {
+    if (messages?.length > 0) {
+      setMessagesDisplay(messages);
+    }
+  }, [messages]);
+
   const bottomOfPageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     bottomOfPageRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, [messages]);
+  }, [messagesDisplay]);
 
   return (
-    <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-5">
-      {messages?.map((message: MessageType) => (
+    <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-20">
+      {messagesDisplay?.map((message: MessageType) => (
         <MessageBubble
           key={message.id}
           authId={userId}
