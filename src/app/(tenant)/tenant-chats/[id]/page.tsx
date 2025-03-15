@@ -1,6 +1,5 @@
 import NavigateBack from "@/app/_utilsComponents/NavigateBack";
-import MessagesSection from "./_component/MessagesSection";
-import getMessages from "./_utils/getMessages";
+import MessageContainer from "./_component/MessageContainer";
 
 function ChatRoom() {
   return (
@@ -10,7 +9,7 @@ function ChatRoom() {
           <NavigateBack buttonVariant="ghost" path="/tenant-chats" />
         </div>
 
-        <MessagesSection />
+        <MessageContainer />
       </div>
     </>
   );
