@@ -4,15 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 import MessageBubble from "./MessageBubble";
 import getMessages, { MessageType } from "../_utils/getMessages";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { SocketContext } from "@/app/_context/SocketContext";
 
 type PropsType = {
   messagesDisplay: MessageType[];
-  setMessagesDisplay: (messages: MessageType[]) => void;
+  setMessagesDisplay: React.Dispatch<React.SetStateAction<MessageType[]>>;
 };
 
 function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
   const params = useParams();
+
+  const socket = useContext(SocketContext);
 
   const [userId, setUserId] = useState<number>(0);
 
@@ -48,6 +51,23 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
       behavior: "smooth",
     });
   }, [messagesDisplay]);
+
+  useEffect(() => {
+    console.log("Socket", socket);
+    const handleReceiveMessage = ({ message }: { message: MessageType }) => {
+      console.log(message);
+
+      setMessagesDisplay((prev) => [...prev, message]);
+    };
+
+    socket?.on("receiveMessage", handleReceiveMessage);
+
+    return () => {
+      console.log("Cleaning up receiveMessage socket listener");
+
+      socket?.off("receiveMessage", handleReceiveMessage);
+    };
+  }, [socket]);
 
   return (
     <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-20">
