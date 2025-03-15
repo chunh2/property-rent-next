@@ -5,9 +5,17 @@ import MessageBubble from "./MessageBubble";
 import getMessages, { MessageType } from "../_utils/getMessages";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
+import { SocketContext } from "@/app/_context/SocketContext";
 
-function MessagesSection() {
+type PropsType = {
+  messagesDisplay: MessageType[];
+  setMessagesDisplay: React.Dispatch<React.SetStateAction<MessageType[]>>;
+};
+
+function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
   const params = useParams();
+
+  const socket = useContext(SocketContext);
 
   const [userId, setUserId] = useState<number>(0);
 
@@ -30,17 +38,40 @@ function MessagesSection() {
 
   const messages: MessageType[] = data?.data || [];
 
+  useEffect(() => {
+    if (messages?.length > 0) {
+      setMessagesDisplay(messages);
+    }
+  }, [messages]);
+
   const bottomOfPageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     bottomOfPageRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, [messages]);
+  }, [messagesDisplay]);
+
+  useEffect(() => {
+    console.log("Socket", socket);
+    const handleReceiveMessage = ({ message }: { message: MessageType }) => {
+      console.log(message);
+
+      setMessagesDisplay((prev) => [...prev, message]);
+    };
+
+    socket?.on("receiveMessage", handleReceiveMessage);
+
+    return () => {
+      console.log("Cleaning up receiveMessage socket listener");
+
+      socket?.off("receiveMessage", handleReceiveMessage);
+    };
+  }, [socket]);
 
   return (
-    <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-5">
-      {messages?.map((message: MessageType) => (
+    <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-20">
+      {messagesDisplay?.map((message: MessageType) => (
         <MessageBubble
           key={message.id}
           authId={userId}
