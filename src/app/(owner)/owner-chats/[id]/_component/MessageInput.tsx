@@ -7,8 +7,13 @@ import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import sendMessage from "../_utils/sendMessage";
 import { SocketContext } from "@/app/_context/SocketContext";
+import { MessageType } from "../_utils/getMessages";
 
-function MessageInput() {
+type PropsType = {
+  setMessagesDisplay: React.Dispatch<React.SetStateAction<MessageType[]>>;
+};
+
+function MessageInput({ setMessagesDisplay }: PropsType) {
   const params = useParams();
 
   const socket = useContext(SocketContext);
@@ -45,7 +50,7 @@ function MessageInput() {
 
     // send message
     if (socket) {
-      await sendMessage(data, socket);
+      await sendMessage(data, socket, setMessagesDisplay);
     } else {
       console.error("Socket not connected");
     }

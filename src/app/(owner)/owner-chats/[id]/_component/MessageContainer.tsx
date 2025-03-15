@@ -16,7 +16,7 @@ function MessageContainer() {
       />
 
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] sm:w-[75%]">
-        <MessageInput />
+        <MessageInput setMessagesDisplay={setMessagesDisplay} />
       </div>
     </>
   );
