@@ -14,7 +14,7 @@ const getMessages = async (chatRoomId: number) => {
 export default getMessages;
 
 export type MessageType = {
-  id: number;
+  id: number | string;
   content: string;
   chat_room_id: number;
   sender_id: number;
