@@ -6,7 +6,12 @@ import getMessages, { MessageType } from "../_utils/getMessages";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-function MessagesSection() {
+type PropsType = {
+  messagesDisplay: MessageType[];
+  setMessagesDisplay: (messages: MessageType[]) => void;
+};
+
+function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
   const params = useParams();
 
   const [userId, setUserId] = useState<number>(0);
@@ -29,8 +34,6 @@ function MessagesSection() {
   });
 
   const messages: MessageType[] = data?.data || [];
-
-  const [messagesDisplay, setMessagesDisplay] = useState<MessageType[]>([]);
 
   useEffect(() => {
     if (messages?.length > 0) {
