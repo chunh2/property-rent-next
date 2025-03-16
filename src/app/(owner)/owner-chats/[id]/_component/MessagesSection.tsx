@@ -52,12 +52,22 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
     });
   }, [messagesDisplay]);
 
+  // receiving message
   useEffect(() => {
     console.log("Socket", socket);
-    const handleReceiveMessage = ({ message }: { message: MessageType }) => {
+    const handleReceiveMessage = ({
+      chatRoomId: receivingChatRoomId,
+      message,
+    }: {
+      chatRoomId: number;
+      message: MessageType;
+    }) => {
       console.log(message);
 
-      setMessagesDisplay((prev) => [...prev, message]);
+      // if current chat room is the receiving chat room
+      if (receivingChatRoomId === chatRoomId) {
+        setMessagesDisplay((prev) => [...prev, message]);
+      }
     };
 
     socket?.on("receiveMessage", handleReceiveMessage);
@@ -67,7 +77,7 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
 
       socket?.off("receiveMessage", handleReceiveMessage);
     };
-  }, [socket]);
+  }, [socket, chatRoomId]);
 
   return (
     <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-20">
