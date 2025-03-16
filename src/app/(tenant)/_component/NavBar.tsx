@@ -23,7 +23,7 @@ function NavBar() {
 
   return (
     <>
-      <div className="flex justify-between m-8">
+      <div className="flex justify-between m-8 sticky top-0">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
