@@ -1,4 +1,5 @@
 import SocketProvider from "../_context/SocketContext";
+import ReceiveMessageListener from "../_utilsComponents/ReceiveMessageListener";
 import NavBar from "./_components/NavBar";
 
 type PropsType = {
@@ -9,9 +10,11 @@ function LayoutOwner({ children }: PropsType) {
   return (
     <>
       <SocketProvider>
-        <NavBar />
+        <ReceiveMessageListener>
+          <NavBar />
 
-        <>{children}</>
+          <>{children}</>
+        </ReceiveMessageListener>
       </SocketProvider>
     </>
   );
