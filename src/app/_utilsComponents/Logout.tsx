@@ -32,7 +32,12 @@ function Logout() {
     <>
       <AlertDialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive">Logout</Button>
+          <Button
+            variant="ghost"
+            className="text-red-500 hover:text-red-500/90 hover:border hover:border-red-500/90"
+          >
+            Logout
+          </Button>
         </AlertDialogTrigger>
 
         <AlertDialogContent>
