@@ -6,8 +6,6 @@ import SearchParamsType from "./utils/SearchParamsType";
 import { redirect } from "next/navigation";
 import Filter from "./_component/Filter";
 import CreateProperty from "./_component/CreateProperty";
-import { Suspense } from "react";
-import Loading from "@/app/_utilsComponents/Loading";
 
 type PropertiesResponse = {
   message?: string;
@@ -49,21 +47,19 @@ async function OwnerProperties({
 
       <Pagination count={count} />
 
-      <Suspense fallback={<Loading />}>
-        <div className="my-5">
-          {error ? (
-            <p className="text-gray-500 text-center text-2xl font-bold">
-              {error}
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
-              {properties?.map((property: Property) => (
-                <PropertyCard property={property} key={property.id} />
-              ))}
-            </div>
-          )}
-        </div>
-      </Suspense>
+      <div className="my-5">
+        {error ? (
+          <p className="text-gray-500 text-center text-2xl font-bold">
+            {error}
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6">
+            {properties?.map((property: Property) => (
+              <PropertyCard property={property} key={property.id} />
+            ))}
+          </div>
+        )}
+      </div>
 
       <Pagination count={count} />
     </div>
