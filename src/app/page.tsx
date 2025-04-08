@@ -1,5 +1,9 @@
+import { redirect } from "next/navigation";
+
 function Home() {
-  return <div>Home</div>;
+  redirect("/tenant-properties");
+
+  return <></>;
 }
 
 export default Home;
