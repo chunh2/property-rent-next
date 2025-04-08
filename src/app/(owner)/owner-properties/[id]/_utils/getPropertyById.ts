@@ -8,9 +8,6 @@ const getPropertyById = async (id: string | number) => {
   const token = getToken();
 
   const res = await fetch(url, {
-    next: {
-      revalidate: 60,
-    },
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
