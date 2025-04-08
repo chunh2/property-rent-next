@@ -10,6 +10,7 @@ import getPropertyTypes, {
 import getPropertyStatuses, {
   PropertyStatusType,
 } from "@/app/_utils/getPropertyStatuses";
+import formatDateTime from "@/app/_utils/formatDateTime";
 
 type PropsType = {
   params: {
@@ -49,7 +50,9 @@ async function PropertyDetails({ params }: PropsType) {
 
       {/* created date time */}
       <div className="flex justify-end">
-        <CreatedDateTimeTooltip createdAt={property.createdAt} />
+        <p className="text-gray-500">
+          Added at {formatDateTime(property.createdAt)}
+        </p>
       </div>
 
       <h1 className="text-center font-bold text-3xl">{property.title}</h1>
