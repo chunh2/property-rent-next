@@ -87,6 +87,7 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
           authId={userId}
           sender={message.sender}
           message={message.content}
+          createdAt={message.createdAt}
         />
       ))}
 
