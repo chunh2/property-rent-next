@@ -38,7 +38,7 @@ NEXT_PUBLIC_API_PORT=
 npm run dev
 ```
 
-### For Production
+<!-- ### For Production
 
 1. Build the project for production.
 
@@ -50,4 +50,4 @@ npm run build
 
 ```bash
 npm run preview
-```
+``` -->
