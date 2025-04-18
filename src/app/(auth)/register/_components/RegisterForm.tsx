@@ -46,9 +46,7 @@ const RegisterFormSchema = z
 
 type RegisterFormType = z.infer<typeof RegisterFormSchema>;
 
-type PropsType = {};
-
-function RegisterForm({}: PropsType) {
+function RegisterForm() {
   const {
     control,
     handleSubmit,

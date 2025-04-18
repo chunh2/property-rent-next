@@ -30,9 +30,7 @@ const LoginFormSchema = z.object({
 
 type LoginFormType = z.infer<typeof LoginFormSchema>;
 
-type PropsType = {};
-
-function LoginForm({}: PropsType) {
+function LoginForm() {
   const {
     control,
     handleSubmit,
