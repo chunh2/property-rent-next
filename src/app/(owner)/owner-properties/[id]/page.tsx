@@ -2,7 +2,6 @@ import NavigateBack from "@/app/_utilsComponents/NavigateBack";
 import getPropertyById from "./_utils/getPropertyById";
 import EditForm from "./_component/EditForm";
 import Property from "../utils/PropertyType";
-import CreatedDateTimeTooltip from "./_component/CreatedDateTimeTooltip";
 import getStates, { StateType } from "@/app/_utils/getStates";
 import getPropertyTypes, {
   PropertyTypesType,
