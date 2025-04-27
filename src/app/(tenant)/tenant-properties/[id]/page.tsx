@@ -21,11 +21,7 @@ type Response = {
 async function PropertyDetails({ params }: PropsType) {
   const { id } = params;
 
-  const {
-    data: property,
-    message,
-    error,
-  }: Response = await getPropertyById(id);
+  const { data: property }: Response = await getPropertyById(id);
 
   return (
     <div className="sm:m-20">

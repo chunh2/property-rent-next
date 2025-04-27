@@ -130,10 +130,7 @@ function EditForm({
       return response;
     },
     onSuccess: (response) => {
-      const {
-        message,
-        data: { id },
-      } = response;
+      const { message } = response;
 
       console.log(response);
       toast("Success", {

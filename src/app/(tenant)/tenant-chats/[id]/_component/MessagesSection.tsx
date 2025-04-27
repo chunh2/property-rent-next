@@ -28,7 +28,7 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
 
   const chatRoomId = Number(params.id);
 
-  const { data, isLoading, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["messages"],
     queryFn: () => getMessages(chatRoomId),
     gcTime: 0,
@@ -42,7 +42,7 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
     if (messages?.length > 0) {
       setMessagesDisplay(messages);
     }
-  }, [messages]);
+  }, [messages, setMessagesDisplay]);
 
   const bottomOfPageRef = useRef<HTMLDivElement | null>(null);
 
@@ -77,7 +77,7 @@ function MessagesSection({ messagesDisplay, setMessagesDisplay }: PropsType) {
 
       socket?.off("receiveMessage", handleReceiveMessage);
     };
-  }, [socket, chatRoomId]);
+  }, [socket, chatRoomId, setMessagesDisplay]);
 
   return (
     <div className="mx-2 sm:mx-5 md:mx-10 lg:mx-16 xl:mx-20 2xl:mx-24 my-20">

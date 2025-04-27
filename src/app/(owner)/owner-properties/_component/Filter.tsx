@@ -7,9 +7,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
-type PropsType = {};
-
-function Filter({}: PropsType) {
+function Filter() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();

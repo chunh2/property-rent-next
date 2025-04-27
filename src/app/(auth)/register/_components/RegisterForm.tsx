@@ -78,7 +78,7 @@ function RegisterForm() {
 
       return res.json();
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast("Registration Successful", {
         description: "Your account has been created successfully",
       });

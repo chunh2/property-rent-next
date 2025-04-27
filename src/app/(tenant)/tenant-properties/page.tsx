@@ -34,7 +34,6 @@ async function TenantProperties({
   });
 
   const {
-    message,
     count,
     data: properties,
     error,

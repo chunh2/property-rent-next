@@ -26,11 +26,7 @@ type Response = {
 async function PropertyDetails({ params }: PropsType) {
   const { id } = params;
 
-  const {
-    data: property,
-    message,
-    error,
-  }: Response = await getPropertyById(id);
+  const { data: property }: Response = await getPropertyById(id);
 
   const states: StateType[] = (await getStates()) || [];
 

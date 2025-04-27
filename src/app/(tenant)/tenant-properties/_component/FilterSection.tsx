@@ -2,16 +2,9 @@
 
 import { StateType } from "@/app/_utils/getStates";
 import StateFilter from "./StateFilter";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useContext, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import PropertyTypeFilter from "./PropertyTypeFilter";

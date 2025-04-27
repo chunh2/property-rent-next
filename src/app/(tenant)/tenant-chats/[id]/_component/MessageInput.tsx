@@ -28,7 +28,7 @@ function MessageInput({ setMessagesDisplay }: PropsType) {
 
     setSenderId(Number(senderId));
     setChatRoomId(Number(chatRoomId));
-  }, []);
+  }, [params.id]);
 
   const handleChangeMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

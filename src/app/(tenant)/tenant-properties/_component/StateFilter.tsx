@@ -1,7 +1,6 @@
 "use client";
 
 import { StateType } from "@/app/_utils/getStates";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -17,7 +16,6 @@ import {
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import { X } from "lucide-react";
-import { useState } from "react";
 
 type PropsType = {
   states: StateType[] | null;

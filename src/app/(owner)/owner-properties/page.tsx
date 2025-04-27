@@ -31,7 +31,6 @@ async function OwnerProperties({
   const property_status_id = parseInt(searchParams.property_status_id || "0");
 
   const {
-    message,
     data: properties,
     error,
     count,

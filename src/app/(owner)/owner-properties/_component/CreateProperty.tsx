@@ -141,8 +141,6 @@ function CreateProperty() {
     },
   });
 
-  const propertyImages = watch("property_images");
-
   const [images, setImages] = useState<PropertyImageType[]>([]);
 
   const removePropertyImage = (id: string) => {
