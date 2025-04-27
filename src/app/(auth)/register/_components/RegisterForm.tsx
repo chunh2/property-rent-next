@@ -35,9 +35,7 @@ const RegisterFormSchema = z
     confirmation_password: z
       .string()
       .min(1, "Password confirmation is required"),
-    role_ids: z
-      .array(z.enum(["1", "2"]))
-      .min(1, "At least one role is required"),
+    role_ids: z.array(z.string()).min(1, "At least one role is required"),
   })
   .refine((data) => data.password === data.confirmation_password, {
     message: "Passwords do not match",
